@@ -1,0 +1,14 @@
+[root_section]
+[root.leaf]
+[root.leaf.sub]
+
+# a comment
+
+[with_opt]
+name=penguins for stanley
+hero = crosby
+game: 7
+multiline=Henry was a fool for love.
+    He made it is dream.
+    Fools for one and all.
+    What dreams may come!

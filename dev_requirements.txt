@@ -1,0 +1,10 @@
+# dev libraries
+mccabe
+pylint
+flake8
+pytest
+pytest-cover
+
+# external libaries
+pathlib
+
