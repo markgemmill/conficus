@@ -1,2 +1,6 @@
 ficus.egg-info/
 .hgignore
+.cache
+.coverage
+__pycache__
+*.pyc
