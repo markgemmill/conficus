@@ -28,8 +28,8 @@ def test_ficus_invalid_indent():
         ficus.parse_raw(raw_lines)
 
 
-def test_ficus_dict_iter(raw_cfg):
-    items = [i for i in raw_cfg.iter()]
+def test_ficus_dict_values(raw_cfg):
+    items = [i for i in raw_cfg.values()]
     assert len(items) == 10
     assert items[0].value == 'penguins for stanley'
     assert items[9].value == '1'

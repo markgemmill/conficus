@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 def test_ficus_count_config_values(coerce_cfg):
-    items = [i for i in coerce_cfg.iter()]
+    items = [i for i in coerce_cfg.values()]
     assert len(items) == 21
 
 

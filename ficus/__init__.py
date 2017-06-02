@@ -18,7 +18,9 @@ class FicusDict(OrderedDict):
     '''
     FicusDict is an override of standard dictionary
     to allow dot-named access to nested dictionary
-    values, so this call:
+    values.
+
+    The standard nested call:
 
         config['parent']['child']
 
@@ -49,20 +51,19 @@ class FicusDict(OrderedDict):
             end = super(FicusDict, end).__getitem__(seg)
         return contains
 
-    def iter(self):
-        values = []
+    def values(self):
+        _values = []
 
-        def _recurse(section, values):
+        def _recurse(section, v):
             for key, val in section.items():
                 if isinstance(val, FicusDict):
-                    _recurse(val, values)
+                    _recurse(val, v)
                 if isinstance(val, ConfigValue):
-                    values.append(val)
+                    v.append(val)
 
-        _recurse(self, values)
+        _recurse(self, _values)
 
-        for v in values:
-            yield v
+        return _values
 
 
 def matcher(regex):
@@ -109,11 +110,63 @@ class ConfigValue(object):
         if self.multiline:
             return '\n'.join(self.raw_value)
         if self.raw_value:
-            return self.raw_value[0]
-        return ''
+            return str(self.raw_value[0])
 
     def __deepcopy__(self, memo):
         return self.end_value
+
+
+rx_section = matcher(r'^\[(?P<section>[^\]]+)\].*$')
+rx_comment = matcher(r'^ *(#|;)(?P<comment>.*)$')
+rx_option = matcher(r'^ *(?P<key>\S*)( ?= ?|: )(?P<value>.*)$')
+rx_multiline = matcher(r'^    *(?P<value>[^#;].*)$')
+rmv_crlf = substituter(r'[\r\n]', '')
+
+
+def parse_section(line, parm):
+    match = rx_section(line)
+    if match:
+        section_name = match['section'].strip()
+        section_heirarchy = section_name.split('.')
+        section_dict = parm['config']
+        for section in section_heirarchy:
+            section_dict = section_dict.setdefault(section, FicusDict())
+        parm['current_section'] = section_dict
+        return None
+
+    return line
+
+
+def parse_option(line, parm):
+    match = rx_option(line)
+    if match:
+        key = match['key'].strip()
+        value = match['value']
+        cv = ConfigValue(value)
+        parm['current_section'][key] = cv
+        parm['current_option'] = cv
+        return None
+    return line
+
+
+def parse_multiline_opt(line, parm):
+    match = rx_multiline(line)
+    if match:
+        if parm['current_option'] is not None:
+            parm['current_option'].add(match['value'])
+        return None
+    return line
+
+
+def parse_comment(line, parm):
+    match = rx_comment(line)
+    if match:
+        return None
+    return line
+
+
+def parse_unknown(line, parm):
+    return None
 
 
 def parse(config_lines):
@@ -122,54 +175,6 @@ def parse(config_lines):
     and key values.
 
     '''
-    rx_section = matcher(r'^\[(?P<section>[^\]]+)\].*$')
-    rx_comment = matcher(r'^ *(#|;)(?P<comment>.*)$')
-    rx_option = matcher(r'^ *(?P<key>\S*)( ?= ?|: )(?P<value>.*)$')
-    rx_multiline = matcher(r'^    *(?P<value>[^#;].*)$')
-    rmv_crlf = substituter(r'[\r\n]', '')
-
-    def parse_section(line, parm):
-        match = rx_section(line)
-        if match:
-            section_name = match['section'].strip()
-            section_heirarchy = section_name.split('.')
-            section_dict = parm['config']
-            for section in section_heirarchy:
-                section_dict = section_dict.setdefault(section, FicusDict())
-            parm['current_section'] = section_dict
-            return None
-
-        return line
-
-    def parse_option(line, parm):
-        match = rx_option(line)
-        if match:
-            key = match['key'].strip()
-            value = match['value']
-            cv = ConfigValue(value)
-            parm['current_section'][key] = cv
-            parm['current_option'] = cv
-            return None
-        return line
-
-    def parse_multiline_opt(line, parm):
-        match = rx_multiline(line)
-        if match:
-            if parm['current_option'] is None:
-                raise Exception('Invalid indentation at: {}'.format(line))
-            parm['current_option'].add(match['value'])
-            return None
-        return line
-
-    def parse_comment(line, parm):
-        match = rx_comment(line)
-        if match:
-            return None
-        return line
-
-    def parse_unknown(line, parm):
-        return None
-
     parsers = (parse_option,
                parse_multiline_opt,
                parse_section,
@@ -199,7 +204,7 @@ def parse(config_lines):
 
 def inherit(config):
     '''
-    ficus.inherit pushes the configuration values of 
+    ficus.inherit pushes the configuration values of
     parent section down to its child sections.
 
     This can be used as a way of simplifying config usage. For example:
@@ -242,7 +247,7 @@ def inherit(config):
     _inherit({}, config)
 
 
-def coerce_simple(value, *coercers):
+def coerce_single_line(value, *coercers):
     for match, convert in chain(*coercers):
         if match(value):
             return convert(value)
@@ -255,25 +260,22 @@ def coerce_bool(value):
     return False
 
 
-def coerce_datetime(value):
-    return datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
-
-
-def coerce_date(value):
-    return datetime.strptime(value, '%Y-%m-%d')
-
-
-def coerce_time(value):
-    return datetime.strptime(value, '%H:%M:%S')
+def coerce_datetime(date_fmt):
+    def _coerce_datetime(value):
+        return datetime.strptime(value, date_fmt)
+    return _coerce_datetime
 
 
 simple_coercers = [
     (matcher(r'^(?P<value>\d+)$'), int),
     (matcher(r'^(?P<value>\d+\.\d+)$'), float),
     (matcher(r'^(?P<value>(true|false|yes|no|y|n|t|f))$'), coerce_bool),
-    (matcher(r'^(?P<value>\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d)$'), coerce_datetime),
-    (matcher(r'^(?P<value>\d{4}-\d\d-\d\d)$'), coerce_date),
-    (matcher(r'^(?P<value>\d\d:\d\d:\d\d)$'), coerce_time)]
+    (matcher(r'^(?P<value>\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d)$'),
+     coerce_datetime('%Y-%m-%dT%H:%M:%S')),
+    (matcher(r'^(?P<value>\d{4}-\d\d-\d\d)$'),
+     coerce_datetime('%Y-%m-%d')),
+    (matcher(r'^(?P<value>\d\d:\d\d:\d\d)$'),
+     coerce_datetime('%H:%M:%S'))]
 
 
 def match_single_line_list(value):
@@ -284,7 +286,7 @@ def coerce_single_line_list(value):
     value = value.lstrip('[').rstrip(']')
     if not value:
         return []
-    return [coerce_simple(v.strip(), simple_coercers) for v
+    return [coerce_single_line(v.strip(), simple_coercers) for v
             in value.split(',')]
 
 
@@ -300,21 +302,21 @@ def coerce_multiline(value, *coercers):
         value[0] = value[0].lstrip('[')
         value[-1] = value[-1].rstrip(']')
         value = [v.strip().rstrip(',') for v in value]
-        return [coerce_simple(v, simple_coercers, list_coercers, *coercers)
+        return [coerce_single_line(v, simple_coercers, list_coercers, *coercers)
                 for v in value if v]
     return '\n'.join(value)
 
 
 def coerce(config, *coercers):
 
-    for cfg_obj in config.iter():
+    for cfg_obj in config.values():
         if cfg_obj.multiline:
             cfg_obj.end_value = coerce_multiline(cfg_obj.raw_value, *coercers)
         else:
-            cfg_obj.end_value = coerce_simple(cfg_obj.value,
-                                              simple_coercers,
-                                              list_coercers,
-                                              *coercers)
+            cfg_obj.end_value = coerce_single_line(cfg_obj.value,
+                                                   simple_coercers,
+                                                   list_coercers,
+                                                   *coercers)
 
     return copy.deepcopy(config)
 
