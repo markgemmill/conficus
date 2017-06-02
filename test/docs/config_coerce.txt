@@ -1,0 +1,40 @@
+[integer]
+value = 1
+
+[float]
+value = 2.0
+
+[empty-list]
+value = []
+
+[single-line-list]
+integers = [1, 2, 3, 4]
+strings = [one, two, three]
+floats = [3.4, 3.4 ]
+
+[bool-true]
+val1=true
+val2=True
+val3=yes
+val4=YES
+val5=Y
+val6=t
+
+[bool-false]
+val1 = false
+val2 = False
+val3 = no
+val4 = NO 
+val5 = N 
+val6 = f
+
+[datetime]
+value = 2017-05-31T10:00:00
+
+[date]
+value = 2017-05-31
+
+
+[time]
+value = 10:15:02
+
