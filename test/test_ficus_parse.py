@@ -63,4 +63,4 @@ def test_raw_option_values(raw_cfg):
 
 def test_raw_multiline_option_values(raw_cfg):
     assert isinstance(raw_cfg['with_opt.multiline'], ficus.ConfigValue)
-    assert raw_cfg['with_opt.multiline'].is_multiline
+    assert raw_cfg['with_opt.multiline'].multiline

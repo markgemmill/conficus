@@ -93,23 +93,24 @@ def read_config(file_path):
 
 class ConfigValue(object):
 
-    def __init__(self, full_name, raw_value):
-        self.raw_value = raw_value
-        self.multiline = []
+    def __init__(self, initial_value):
+        self.raw_value = [initial_value]
+        self.end_value = None
+
+    def add(self, value):
+        self.raw_value.append(value)
 
     @property
-    def is_multiline(self):
-        return len(self.multiline) > 0
-
-    def add_multiline(self, value):
-        # we don't know if a value is multiline until it is parsed.
-        if not self.multiline:
-            self.multiline.append(self.raw_value)
-        self.multiline.append(value)
+    def multiline(self):
+        return len(self.raw_value) > 1
 
     @property
     def value(self):
-        return self.raw_value
+        if self.multiline:
+            return '\n'.join(self.raw_value)
+        if self.raw_value:
+            return self.raw_value[0]
+        return ''
 
     def __deepcopy__(self, memo):
         return self.end_value
@@ -145,7 +146,7 @@ def parse(config_lines):
         if match:
             key = match['key'].strip()
             value = match['value']
-            cv = ConfigValue(key, value)
+            cv = ConfigValue(value)
             parm['current_section'][key] = cv
             parm['current_option'] = cv
             return None
@@ -156,7 +157,7 @@ def parse(config_lines):
         if match:
             if parm['current_option'] is None:
                 raise Exception('Invalid indentation at: {}'.format(line))
-            parm['current_option'].add_multiline(match['value'])
+            parm['current_option'].add(match['value'])
             return None
         return line
 
@@ -307,8 +308,8 @@ def coerce_multiline(value, *coercers):
 def coerce(config, *coercers):
 
     for cfg_obj in config.iter():
-        if cfg_obj.is_multiline:
-            cfg_obj.end_value = coerce_multiline(cfg_obj.multiline, *coercers)
+        if cfg_obj.multiline:
+            cfg_obj.end_value = coerce_multiline(cfg_obj.raw_value, *coercers)
         else:
             cfg_obj.end_value = coerce_simple(cfg_obj.value,
                                               simple_coercers,
