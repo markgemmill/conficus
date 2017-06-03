@@ -2,6 +2,7 @@
 
 ### ficus 
 
+![Alt url[(https://img.shields.io/badge/version-v0.1.1-green.svg, "v0.1.1")
 ![Alt url](https://img.shields.io/badge/coverage-100%25-green.svg "100% Coverage")
 
 

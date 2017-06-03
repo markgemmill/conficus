@@ -1,5 +1,5 @@
 site_name: ficus 
 pages:
-    - Home: index.md
-    - About: about.md
+    - Home: about.md
+    - About: index.md
 theme: alabaster

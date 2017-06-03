@@ -4,3 +4,4 @@ ficus.egg-info/
 .coverage
 __pycache__
 *.pyc
+docs/site

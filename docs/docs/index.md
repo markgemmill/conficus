@@ -1,17 +1,77 @@
-# Welcome to MkDocs
+# Welcome To Ficus Configuration 
 
-For full documentation visit [mkdocs.org](http://mkdocs.org).
+## Ficus 
 
-## Commands
+![Alt url](https://img.shields.io/badge/version-v0.1.1-green.svg "v0.1.1")
+![Alt url](https://img.shields.io/badge/coverage-100%25-green.svg "100% Coverage")
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
 
-## Project layout
+`ficus` is a python ini configuration library. It reads ini based 
+configuration files into a dict with some ease of use features.
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+### Installation
+
+Install with pip.
+
+### Quick Start 
+
+Use it like this:
+
+###  INI Format Features with ficus
+
+special formats.
+
+### Nested Section
+
+ficus has nested sections.
+
+
+### Automatic Coercing of Values
+
+These values are automatically converted to standard python types.
+
+### Inheritence
+
+There is an option to push parent 
+
+
+### Alternatives
+
+TOML
+
+https://img.shields.io/badge/version-v0.1.1-green.svg, "v0.1.1")
+![Alt url](https://img.shields.io/badge/coverage-100%25-green.svg "100% Coverage")
+
+
+`ficus` is a python ini configuration library. It reads ini based 
+configuration files into a dict with some ease of use features.
+
+### Installation
+
+Install with pip.
+
+### Quick Start 
+
+Use it like this:
+
+###  INI Format Features with ficus
+
+special formats.
+
+### Nested Section
+
+ficus has nested sections.
+
+
+### Automatic Coercing of Values
+
+These values are automatically converted to standard python types.
+
+### Inheritence
+
+There is an option to push parent 
+
+
+### Alternatives
+
+TOML
