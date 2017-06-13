@@ -6,72 +6,31 @@
 ![Alt url](https://img.shields.io/badge/coverage-100%25-green.svg "100% Coverage")
 
 
-`ficus` is a python ini configuration library. It reads ini based 
-configuration files into a dict with some ease of use features.
+`ficus` is a python ini configuration library. It reads ini-based
+configuration files into a python dict. `ficus` provides automatic coercing of 
+values (e.g. str -> int), nested sections, easy access and section inheritence.
 
 ### Installation
 
-Install with pip.
+Install the `ficus` package with pip.
+
+    pip install ficus
 
 ### Quick Start 
 
-Use it like this:
+Basic usage:
 
-###  INI Format Features with ficus
+```python
 
-special formats.
+import ficus
 
-### Nested Section
+config = ficus.load('/Users/mgemmill/config.ini')
 
-ficus has nested sections.
+# prints True
+print config['app']['debug']
 
+# prints True
+print config['app.debug']
 
-### Automatic Coercing of Values
+```
 
-These values are automatically converted to standard python types.
-
-### Inheritence
-
-There is an option to push parent 
-
-
-### Alternatives
-
-TOML
-
-https://img.shields.io/badge/version-v0.1.1-green.svg, "v0.1.1")
-![Alt url](https://img.shields.io/badge/coverage-100%25-green.svg "100% Coverage")
-
-
-`ficus` is a python ini configuration library. It reads ini based 
-configuration files into a dict with some ease of use features.
-
-### Installation
-
-Install with pip.
-
-### Quick Start 
-
-Use it like this:
-
-###  INI Format Features with ficus
-
-special formats.
-
-### Nested Section
-
-ficus has nested sections.
-
-
-### Automatic Coercing of Values
-
-These values are automatically converted to standard python types.
-
-### Inheritence
-
-There is an option to push parent 
-
-
-### Alternatives
-
-TOML

@@ -7,8 +7,10 @@ config = ficus.load(config_file)
 
 
 '''
+import os
 import re
 import copy
+from os import path
 from itertools import chain
 from datetime import datetime
 from collections import OrderedDict
@@ -66,6 +68,32 @@ class FicusDict(OrderedDict):
         return _values
 
 
+class ReadOnlyDict(FicusDict):
+
+    def __init__(self, src):
+        super(ReadOnlyDict, self).__init__(src)
+        self.readonly = True
+
+    def __setitem__(self, key, item):
+        if hasattr(self, 'readonly'):
+            raise TypeError('Key `{}` is read only!'.format(key))
+        if isinstance(item, FicusDict):
+            item = ReadOnlyDict(item)
+        return super(ReadOnlyDict, self).__setitem__(key, item)
+
+    def __delitem__(self, key):
+        raise TypeError
+
+    def clear(self):
+        raise TypeError
+
+    def pop(self, key, *args):
+        raise TypeError
+
+    def popitem(self):
+        raise TypeError
+
+
 def matcher(regex):
     rx = re.compile(regex, re.I)
 
@@ -87,9 +115,11 @@ def substituter(regex, sub):
     return _substituter
 
 
-def read_config(file_path):
-    with open(file_path) as fh_:
-        return fh_.readlines()
+def read_config(config_input):
+    if path.exists(config_input):
+        with open(config_input, 'r') as fh_:
+            return fh_.readlines()
+    return config_input.split('\n')
 
 
 class ConfigValue(object):
@@ -226,17 +256,17 @@ def inherit(config):
     body=error_template.txt
 
     '''
-    def _inherit(options, section):
+    def _inherit(inheritable_options, section):
         # first inherit any options
         # that do not exist
-        for key, val in options.items():
+        for key, val in inheritable_options.items():
             if key not in section:
                 section[key] = val
         # next collect all current options
         # on the section
         section_options = {}
         for key, val in section.items():
-            if isinstance(val, ConfigValue):
+            if not isinstance(val, FicusDict):
                 section_options[key] = val
         # finally, push down the sections options
         # to all its sub-sections
@@ -245,6 +275,8 @@ def inherit(config):
                 _inherit(section_options, val)
 
     _inherit({}, config)
+
+    return config
 
 
 def coerce_single_line(value, *coercers):
@@ -317,13 +349,48 @@ def coerce(config, *coercers):
                                                    simple_coercers,
                                                    list_coercers,
                                                    *coercers)
-
     return copy.deepcopy(config)
 
 
-def load(config_path, inherit=False):
-    config = parse(config_path)
+def load(config_path, inheritance=False, readonly=True):
+
+    config = parse(read_config(config_path))
+
     config = coerce(config)
-    if inherit:
+
+    if inheritance is True:
         config = inherit(config)
+
+    if readonly is True:
+        config = ReadOnlyDict(config)
+
     return config
+
+
+def format_dict(defaults):
+    if not isinstance(defaults, dict):
+        raise Exception('Ficus requires a dict to write to file.')
+
+    output = []
+
+    def _recurse(src, parent=''):
+        sections = []
+        values = []
+        for key, val in src.items():
+            if isinstance(val, dict):
+                sections.append((key, val))
+            else:
+                values.append((key, val))
+
+        if len(values) > 0:
+            output.append('[{}]'.format(parent))
+
+        for key, val in values:
+            output.append('{} = {}'.format(key, val))
+
+        for key, val in sections:
+            _recurse(val, (parent + '.' + key).strip('.'))
+
+    _recurse(defaults)
+
+    return '\n'.join(output)

@@ -5,3 +5,4 @@ ficus.egg-info/
 __pycache__
 *.pyc
 docs/site
+site/
