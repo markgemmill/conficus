@@ -1,0 +1,24 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "702635b68c1baa327e11ffb5382327a89404f180dc589e528d961c2965fb6849"
+        },
+        "requires": {},
+        "sources": [
+            {
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "pathlib": "*"
+    },
+    "develop": {
+        "coverage": "*",
+        "flake8": "*",
+        "pylint": "*",
+        "pytest": "*",
+        "pytest-cov": "*"
+    }
+}

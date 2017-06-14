@@ -1,5 +1,6 @@
-import ficus
 from datetime import datetime
+import ficus
+from ficus.parse import FicusDict 
 
 
 def test_ficus_count_config_values(coerce_cfg):
@@ -10,7 +11,7 @@ def test_ficus_count_config_values(coerce_cfg):
 def test_ficus_coerce_numbers(coerce_cfg):
     config = ficus.coerce(coerce_cfg)
 
-    assert type(config) == ficus.FicusDict
+    assert type(config) == FicusDict
     assert config['integer.value'] == 1
     assert config['float.value'] == 2.0
 

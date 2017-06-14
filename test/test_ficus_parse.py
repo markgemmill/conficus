@@ -1,12 +1,15 @@
 import pytest
 import ficus
+from ficus.parse import FicusDict
+from ficus.parse import ConfigValue
+from ficus.parse import parse
 
 
 def test_ficus_dict_contains():
 
-    d = ficus.FicusDict()
-    d['one'] = ficus.FicusDict()
-    d['one']['two'] = ficus.FicusDict()
+    d = FicusDict()
+    d['one'] = FicusDict()
+    d['one']['two'] = FicusDict()
     d['one']['two']['name'] = 'name'
 
     assert 'one' in d
@@ -17,15 +20,18 @@ def test_ficus_dict_contains():
     assert 'one.two.who' not in d
 
 
-def test_ficus_invalid_indent():
-    raw_lines = [
-        '[section]\n',
-        '# comment line\n',
-        '      a line on its own.\n',
-        ]
+# TODO: Do we want to do this?
+# Originally had this requirement, but think we 
+# removed it and just let it be ignored.
+#def test_ficus_invalid_indent():
+    #raw_lines = [
+        #'[section]\n',
+        #'# comment line\n',
+        #'      a line on its own.\n',
+        #]
 
-    with pytest.raises(Exception):
-        ficus.parse_raw(raw_lines)
+    #with pytest.raises(Exception):
+        #parse(raw_lines)
 
 
 def test_ficus_dict_values(raw_cfg):
@@ -62,5 +68,5 @@ def test_raw_option_values(raw_cfg):
 
 
 def test_raw_multiline_option_values(raw_cfg):
-    assert isinstance(raw_cfg['with_opt.multiline'], ficus.ConfigValue)
+    assert isinstance(raw_cfg['with_opt.multiline'], ConfigValue)
     assert raw_cfg['with_opt.multiline'].multiline

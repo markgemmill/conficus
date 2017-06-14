@@ -1,4 +1,3 @@
-import pytest
 import ficus
 
 CONFIG = '''
@@ -56,4 +55,4 @@ def test_ficus_load_with_non_readonly():
     assert 'server' in config['email.errors']
 
     # validate config is readonly
-    assert hasattr(config, 'readonly') is False 
+    assert hasattr(config, 'readonly') is False

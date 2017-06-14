@@ -1,16 +1,17 @@
 import pytest
-import ficus
+from ficus.parse import FicusDict
+from ficus.readonly import ReadOnlyDict
 
 
 def test_ficus_readonly_dict():
 
-    d = ficus.FicusDict()
-    d['one'] = ficus.FicusDict()
+    d = FicusDict()
+    d['one'] = FicusDict()
     d['one']['name'] = 'one'
-    d['one']['two'] = ficus.FicusDict()
+    d['one']['two'] = FicusDict()
     d['one']['two']['name'] = 'one two'
 
-    d = ficus.ReadOnlyDict(d)
+    d = ReadOnlyDict(d)
 
     assert 'one' in d
     assert 'two' not in d
@@ -39,4 +40,3 @@ def test_ficus_readonly_dict():
 
     with pytest.raises(TypeError):
         d.clear()
-

@@ -1,6 +1,6 @@
-import ficus
 from collections import OrderedDict
 from datetime import datetime
+from ficus.format import format_dict
 
 
 default_config = OrderedDict({
@@ -20,7 +20,7 @@ default_config = OrderedDict({
 
 
 def test_dump_section():
-    ini = ficus.format_dict(default_config)
+    ini = format_dict(default_config)
 
     assert ini == ('[section]\n'
                    'value = hello\n'
