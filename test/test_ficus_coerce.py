@@ -1,6 +1,6 @@
 from datetime import datetime
 import ficus
-from ficus.parse import FicusDict 
+from ficus.parse import FicusDict
 
 
 def test_ficus_count_config_values(coerce_cfg):

@@ -1,4 +1,3 @@
-import pytest
 import ficus
 from ficus.parse import FicusDict
 from ficus.parse import ConfigValue
@@ -21,18 +20,18 @@ def test_ficus_dict_contains():
 
 
 # TODO: Do we want to do this?
-# Originally had this requirement, but think we 
+# Originally had this requirement, but think we
 # removed it and just let it be ignored.
-#def test_ficus_invalid_indent():
-    #raw_lines = [
-        #'[section]\n',
-        #'# comment line\n',
-        #'      a line on its own.\n',
-        #]
-
-    #with pytest.raises(Exception):
-        #parse(raw_lines)
-
+# def test_ficus_invalid_indent():
+#    # raw_lines = [
+#        # '[section]\n',
+#        # '# comment line\n',
+#        # '      a line on its own.\n',
+#        # ]
+#
+#    # with pytest.raises(Exception):
+#        # parse(raw_lines)
+#
 
 def test_ficus_dict_values(raw_cfg):
     items = [i for i in raw_cfg.values()]
@@ -70,3 +69,15 @@ def test_raw_option_values(raw_cfg):
 def test_raw_multiline_option_values(raw_cfg):
     assert isinstance(raw_cfg['with_opt.multiline'], ConfigValue)
     assert raw_cfg['with_opt.multiline'].multiline
+
+
+def test_root_sectionless_values():
+    cfgtxt = ('name = Bartholemu Bittersnorn\n'
+              'age = 45')
+    cfg = parse(ficus.read_config(cfgtxt))
+
+    assert 'name' in cfg
+    assert 'age' in cfg
+
+    assert cfg['name'].value == 'Bartholemu Bittersnorn'
+    assert cfg['age'].value == '45'

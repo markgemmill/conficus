@@ -20,12 +20,20 @@ setup_options = {
     'long_description': readme,
     'author': "Mark Gemmill",
     'author_email': 'mark@markgemmill.com',
+    'url': 'https://bitbucket.org/mgemmill/ficus',
     'packages': ['ficus'],
     'package_dir': {'ficus': 'ficus'},
     'include_package_data': True,
     'install_requires': [],
     'zip_safe': False,
-    'keywords': 'ficus'}
+    'keywords': 'ficus',
+    'classifiers': [
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'Programming Language :: Python :: 2.7',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'License :: OSI Approved :: MIT License'
+    ]}
 
 
 setup(**setup_options)

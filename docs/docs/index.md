@@ -1,4 +1,4 @@
-# Welcome To Ficus Configuration 
+# Welcome To Ficus INI Configuration Library 
 
 ## Ficus 
 
@@ -10,18 +10,21 @@
 configuration files into a python dict. `ficus` provides automatic coercing of 
 values (e.g. str -> int), nested sections, easy access and section inheritence.
 
+
 ### Installation
 
 Install the `ficus` package with pip.
 
+```bash
     pip install ficus
+```
+
 
 ### Quick Start 
 
 Basic usage:
 
 ```python
-
 import ficus
 
 config = ficus.load('/Users/mgemmill/config.ini')
@@ -31,6 +34,4 @@ print config['app']['debug']
 
 # prints True
 print config['app.debug']
-
 ```
-

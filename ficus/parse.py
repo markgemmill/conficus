@@ -43,7 +43,7 @@ class FicusDict(OrderedDict):
         _values = []
 
         def _recurse(section, v):
-            for key, val in section.items():
+            for val in super(FicusDict, section).values():
                 if isinstance(val, FicusDict):
                     _recurse(val, v)
                 if isinstance(val, ConfigValue):
@@ -55,6 +55,13 @@ class FicusDict(OrderedDict):
 
 
 def matcher(regex):
+    '''
+    Wrapper around a regex that always returns the
+    group dict if there is a match.
+
+    This requires that all regex have named groups.
+
+    '''
     rx = re.compile(regex, re.I)
 
     def _matcher(line):
@@ -99,7 +106,7 @@ class ConfigValue(object):
         return self.end_value
 
 
-rx_section = matcher(r'^\[(?P<section>[^\]]+)\].*$')
+rx_section = matcher(r'^\[(?P<section>[^\]]+)\] *$')
 rx_comment = matcher(r'^ *(#|;)(?P<comment>.*)$')
 rx_option = matcher(r'^ *(?P<key>\S*)( ?= ?|: )(?P<value>.*)$')
 rx_multiline = matcher(r'^    *(?P<value>[^#;].*)$')
@@ -107,6 +114,11 @@ rmv_crlf = substituter(r'[\r\n]', '')
 
 
 def parse_section(line, parm):
+    '''
+    Any line that begins with "[" and ends with "]"
+    is considered a section.
+
+    '''
     match = rx_section(line)
     if match:
         section_name = match['section'].strip()
@@ -121,6 +133,13 @@ def parse_section(line, parm):
 
 
 def parse_option(line, parm):
+    '''
+    An option is any line that begins with a `name` followed
+    by an equals sign `=` followed by some value:
+
+    name = 12
+
+    '''
     match = rx_option(line)
     if match:
         key = match['key'].strip()
@@ -133,6 +152,12 @@ def parse_option(line, parm):
 
 
 def parse_multiline_opt(line, parm):
+    '''
+    Any line that is indented with 3 or more spaces is
+    considered to be a continuation of the previous
+    option value.
+
+    '''
     match = rx_multiline(line)
     if match:
         if parm['current_option'] is not None:
@@ -142,6 +167,10 @@ def parse_multiline_opt(line, parm):
 
 
 def parse_comment(line, parm):
+    '''
+    Currently we're not handling comments.
+
+    '''
     match = rx_comment(line)
     if match:
         return None
@@ -149,13 +178,17 @@ def parse_comment(line, parm):
 
 
 def parse_unknown(line, parm):
+    '''
+    Any unmatched lines are ignored.
+
+    '''
     return None
 
 
 def parse(config_lines):
     '''
-    Read the raw config file text, and parse into text only sections
-    and key values.
+    `config_lines` is expected to be a list of strings.
+    which will be parsed into sections and key values.
 
     '''
     parsers = (parse_option,

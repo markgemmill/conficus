@@ -6,3 +6,5 @@ __pycache__
 *.pyc
 docs/site
 site/
+.flake8.log
+session.txt

@@ -8,6 +8,7 @@ flake8="*"
 coverage="*"
 pylint="*"
 pytest-cov="*"
+mkdocs="*"
 
 [packages]
 pathlib="*"
