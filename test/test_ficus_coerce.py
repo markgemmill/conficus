@@ -5,7 +5,7 @@ from ficus.parse import FicusDict
 
 def test_ficus_count_config_values(coerce_cfg):
     items = [i for i in coerce_cfg.walk_values()]
-    assert len(items) == 21
+    assert len(items) == 28
 
 
 def test_ficus_coerce_numbers(coerce_cfg):
@@ -50,6 +50,19 @@ def test_ficus_coerce_date(coerce_cfg):
     assert isinstance(config['date.value'], datetime)
     assert config['date.value'].year == 2017
     assert config['date.value'].hour == 0
+
+
+def test_ficus_coerce_string(coerce_cfg):
+    config = ficus.coerce(coerce_cfg)
+
+    assert isinstance(config['strings.str1'], str)
+    assert config['strings.str1'] == 'unquoted string'
+    assert config['strings.str2'] == ' a quoted string preserves white space '
+    assert config['strings.str3'] == '23'
+    assert config['strings.str4'] == 'Multi-quoted string.'
+    assert config['strings.str5'] == 'This is a single line string.'
+    assert config['strings.str6'] == 'This is a multiline\nstring.'
+    assert config['strings.str7'] == 'This is a multiline\n   string with an\n   indent.'
 
 
 def test_ficus_coerce_time(coerce_cfg):

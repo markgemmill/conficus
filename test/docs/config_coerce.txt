@@ -38,3 +38,24 @@ value = 2017-05-31
 [time]
 value = 10:15:02
 
+
+[strings]
+str1 = unquoted string
+str2 = " a quoted string preserves white space "
+str3 = "23"
+str4 = """Multi-quoted string."""
+str5 = """
+    This is a single line 
+    string.
+    """
+
+str6 = """
+    This is a multiline\
+    string.
+    """
+
+str7 = """
+    This is a multiline\
+    |   string with an\
+    |   indent.
+    """
