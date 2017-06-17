@@ -66,7 +66,7 @@ def coerce_multiline(value, *coercers):
 
 def coerce(config, *coercers):
 
-    for cfg_obj in config.values():
+    for cfg_obj in config.walk_values():
         if cfg_obj.multiline:
             cfg_obj.end_value = coerce_multiline(cfg_obj.raw_value, *coercers)
         else:

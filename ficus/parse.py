@@ -1,4 +1,5 @@
 import re
+from functools import wraps
 from collections import OrderedDict
 
 
@@ -39,7 +40,7 @@ class FicusDict(OrderedDict):
             end = super(FicusDict, end).__getitem__(seg)
         return contains
 
-    def values(self):
+    def walk_values(self):
         _values = []
 
         def _recurse(section, v):
@@ -106,33 +107,45 @@ class ConfigValue(object):
         return self.end_value
 
 
-rx_section = matcher(r'^\[(?P<section>[^\]]+)\] *$')
-rx_comment = matcher(r'^ *(#|;)(?P<comment>.*)$')
-rx_option = matcher(r'^ *(?P<key>\S*)( ?= ?|: )(?P<value>.*)$')
-rx_multiline = matcher(r'^    *(?P<value>[^#;].*)$')
-rmv_crlf = substituter(r'[\r\n]', '')
+class parser(object):
+    '''
+    A decorator that wraps common functioning of
+    our parser functions.
+
+    '''
+    def __init__(self, rxstr):
+        self.regex = matcher(rxstr)
+
+    def __call__(self, func):
+
+        @wraps(func)
+        def _parser(line, parm):
+            match = self.regex(line)
+            if match:
+                return func(match, line, parm)
+            return  line
+
+        return _parser 
 
 
-def parse_section(line, parm):
+@parser(r'^\[(?P<section>[^\]]+)\] *$')
+def parse_section(match, line, parm):
     '''
     Any line that begins with "[" and ends with "]"
     is considered a section.
 
     '''
-    match = rx_section(line)
-    if match:
-        section_name = match['section'].strip()
-        section_heirarchy = section_name.split('.')
-        section_dict = parm['config']
-        for section in section_heirarchy:
-            section_dict = section_dict.setdefault(section, FicusDict())
-        parm['current_section'] = section_dict
-        return None
-
-    return line
+    section_name = match['section'].strip()
+    section_heirarchy = section_name.split('.')
+    section_dict = parm['config']
+    for section in section_heirarchy:
+        section_dict = section_dict.setdefault(section, FicusDict())
+    parm['current_section'] = section_dict
+    return None
 
 
-def parse_option(line, parm):
+@parser(r'^ *(?P<key>\S*)( ?= ?|: )(?P<value>.*)$')
+def parse_option(match, line, parm):
     '''
     An option is any line that begins with a `name` followed
     by an equals sign `=` followed by some value:
@@ -140,41 +153,34 @@ def parse_option(line, parm):
     name = 12
 
     '''
-    match = rx_option(line)
-    if match:
-        key = match['key'].strip()
-        value = match['value']
-        cv = ConfigValue(value)
-        parm['current_section'][key] = cv
-        parm['current_option'] = cv
-        return None
-    return line
+    key = match['key'].strip()
+    value = match['value']
+    cv = ConfigValue(value)
+    parm['current_section'][key] = cv
+    parm['current_option'] = cv
+    return None
 
 
-def parse_multiline_opt(line, parm):
+@parser(r'^    *(?P<value>[^#;].*)$')
+def parse_multiline_opt(match, line, parm):
     '''
     Any line that is indented with 3 or more spaces is
     considered to be a continuation of the previous
     option value.
 
     '''
-    match = rx_multiline(line)
-    if match:
-        if parm['current_option'] is not None:
-            parm['current_option'].add(match['value'])
-        return None
-    return line
+    if parm['current_option'] is not None:
+        parm['current_option'].add(match['value'])
+    return None
 
 
-def parse_comment(line, parm):
+@parser(r'^ *(#|;)(?P<comment>.*)$')
+def parse_comment(match, line, parm):
     '''
     Currently we're not handling comments.
 
     '''
-    match = rx_comment(line)
-    if match:
-        return None
-    return line
+    return None
 
 
 def parse_unknown(line, parm):
@@ -204,6 +210,8 @@ def parse(config_lines):
         'current_section': config,
         'current_option': None,
     }
+
+    rmv_crlf = substituter(r'[\r\n]', '')
 
     while config_lines:
 

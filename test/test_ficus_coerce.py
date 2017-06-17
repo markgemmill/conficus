@@ -4,7 +4,7 @@ from ficus.parse import FicusDict
 
 
 def test_ficus_count_config_values(coerce_cfg):
-    items = [i for i in coerce_cfg.values()]
+    items = [i for i in coerce_cfg.walk_values()]
     assert len(items) == 21
 
 
