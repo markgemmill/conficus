@@ -1,3 +1,10 @@
+graft tests
+
 include setup.py
 include README.md
 include LICENSE
+include test
+
+include tox.ini
+
+global-exclude *.py[cod] __pycache__ *.so *.dylib
