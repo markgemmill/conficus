@@ -123,9 +123,9 @@ class parser(object):
             match = self.regex(line)
             if match:
                 return func(match, line, parm)
-            return  line
+            return line
 
-        return _parser 
+        return _parser
 
 
 @parser(r'^\[(?P<section>[^\]]+)\] *$')

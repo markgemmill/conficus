@@ -3,12 +3,15 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [dev-packages]
+ipython="*"
 pytest="*"
 flake8="*"
 coverage="*"
 pylint="*"
 pytest-cov="*"
 mkdocs="*"
+toolz="*"
 
 [packages]
+six="*"
 pathlib="*"

@@ -9,7 +9,7 @@ def coerce_single_line(value, *coercers):
         if match(value):
             return convert(value)
     # this should never return, but is here for safety
-    return value # pragma: no cover
+    return value  # pragma: no cover
 
 
 def coerce_bool(value):
@@ -31,14 +31,16 @@ def coerce_str(value):
 simple_coercers = [
     (matcher(r'^(?P<value>\d+)$'), int),
     (matcher(r'^(?P<value>\d+\.\d+)$'), float),
-    (matcher(r'^(?P<value>(true|false|yes|no|y|n|t|f))$'), coerce_bool),
+    (matcher(r'^(?P<value>(true|false|yes|no|y|n|t|f))$'),
+        coerce_bool),
     (matcher(r'^(?P<value>\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d)$'),
-             coerce_datetime('%Y-%m-%dT%H:%M:%S')),
+        coerce_datetime('%Y-%m-%dT%H:%M:%S')),
     (matcher(r'^(?P<value>\d{4}-\d\d-\d\d)$'),
-             coerce_datetime('%Y-%m-%d')),
+        coerce_datetime('%Y-%m-%d')),
     (matcher(r'^(?P<value>\d\d:\d\d:\d\d)$'),
-             coerce_datetime('%H:%M:%S')),
-    (matcher(r'^(?P<value>("{1,3})?.*("{1,3})?) *$'), coerce_str)]
+        coerce_datetime('%H:%M:%S')),
+    (matcher(r'^(?P<value>("{1,3})?.*("{1,3})?) *$'),
+        coerce_str)]
 
 
 def match_single_line_list(value):
@@ -51,8 +53,6 @@ def coerce_single_line_list(value):
         return []
     return [coerce_single_line(v.strip(), simple_coercers) for v
             in value.split(',')]
-
-
 
 
 list_coercers = [(match_single_line_list, coerce_single_line_list)]
@@ -77,7 +77,7 @@ def coerce_single_line_str(value):
                 to boot.
             """
 
-            A new value 
+            A new value
             and something else
             to boot.
 
@@ -86,14 +86,16 @@ def coerce_single_line_str(value):
             value = """A new value \
                 |   it's true."""
 
-           A new value 
+           A new value
               it's true.
 
     '''
 
+
 sub_new_line = substituter(r'[\r\n]+$', '')
 sub_line_ending = substituter(r'\\ *$', '\n')
 sub_line_beginning = substituter(r'^ *\|', '')
+
 
 def coerce_multiline(value, *coercers):
 
