@@ -1,6 +1,6 @@
 import pytest
-from ficus.parse import FicusDict
-from ficus.readonly import ReadOnlyDict
+from conficus.parse import FicusDict
+from conficus.readonly import ReadOnlyDict
 
 
 def test_ficus_readonly_dict():

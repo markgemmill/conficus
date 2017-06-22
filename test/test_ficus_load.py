@@ -1,4 +1,4 @@
-import ficus
+import conficus
 
 CONFIG = '''
 [app]
@@ -18,7 +18,7 @@ cc = []
 
 def test_ficus_load_defaults():
 
-    config = ficus.load(CONFIG)
+    config = conficus.load(CONFIG)
 
     # sanity check
     assert config['app.debug'] is True
@@ -32,7 +32,7 @@ def test_ficus_load_defaults():
 
 def test_ficus_load_with_inheritence():
 
-    config = ficus.load(CONFIG, inheritance=True)
+    config = conficus.load(CONFIG, inheritance=True)
 
     # sanity check
     assert config['app.debug'] is True
@@ -46,7 +46,7 @@ def test_ficus_load_with_inheritence():
 
 def test_ficus_load_with_non_readonly():
 
-    config = ficus.load(CONFIG, inheritance=True, readonly=False)
+    config = conficus.load(CONFIG, inheritance=True, readonly=False)
 
     # sanity check
     assert config['app.debug'] is True

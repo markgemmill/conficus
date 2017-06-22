@@ -3,17 +3,9 @@
 * set up to test with tox
 * set up docs on readthedocs
 * work out method of linking README.md with docs/docs/index.md
-* rename - already a package called ficus. Options:
-    - conficus
-    - inificus
-    - inicfg
-    - cfgini
-    - ficusini
-    - cfgini
-* rework package layout to the 'src' set up?
-* allow for TOGL style multiline strings?
+* allow for TOML style multiline strings?
 * verify unicode capable?
-* add coercion for paths
+* add coercion for paths?
 * add coercion for urls?
 * test adding custom user coercions
 * make sure lists are converted to tuples in

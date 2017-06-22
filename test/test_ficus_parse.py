@@ -1,7 +1,7 @@
-import ficus
-from ficus.parse import FicusDict
-from ficus.parse import ConfigValue
-from ficus.parse import parse
+import conficus
+from conficus.parse import FicusDict
+from conficus.parse import ConfigValue
+from conficus.parse import parse
 
 
 def test_ficus_dict_contains():
@@ -74,7 +74,7 @@ def test_raw_multiline_option_values(raw_cfg):
 def test_root_sectionless_values():
     cfgtxt = ('name = Bartholemu Bittersnorn\n'
               'age = 45')
-    cfg = parse(ficus.read_config(cfgtxt))
+    cfg = parse(conficus.read_config(cfgtxt))
 
     assert 'name' in cfg
     assert 'age' in cfg

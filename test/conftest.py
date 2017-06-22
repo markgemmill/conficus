@@ -1,14 +1,15 @@
 from pathlib import Path
 import pytest
-import ficus
+import conficus
 
 
 CWD = Path().resolve()
-DOCS = Path(CWD, 'test', 'docs')
+DOCS = Path(CWD, 'test', 'samples')
 PATHS = {
     'config': Path(DOCS, 'config.txt'),
     'coerce': Path(DOCS, 'config_coerce.txt'),
-    'multiline': Path(DOCS, 'config_multiline.txt')
+    'multiline': Path(DOCS, 'config_multiline.txt'),
+    'toml': Path(DOCS, 'example-v0.4.0.toml')
 }
 
 
@@ -19,17 +20,25 @@ def cfg_pth():
 
 @pytest.fixture
 def raw_cfg():
-    lines = ficus.read_config(str(PATHS['config']))
-    return ficus.parse(lines)
+    lines = conficus.read_config(str(PATHS['config']))
+    return conficus.parse(lines)
 
 
 @pytest.fixture
 def coerce_cfg():
-    lines = ficus.read_config(str(PATHS['coerce']))
-    return ficus.parse(lines)
+    lines = conficus.read_config(str(PATHS['coerce']))
+    return conficus.parse(lines)
 
 
 @pytest.fixture
 def multiline_cfg():
-    lines = ficus.read_config(str(PATHS['multiline']))
-    return ficus.parse(lines)
+    lines = conficus.read_config(str(PATHS['multiline']))
+    return conficus.parse(lines)
+
+
+@pytest.fixture
+def toml_sample():
+    lines = conficus.read_config(str(PATHS['toml']))
+    return conficus.parse(lines)
+
+

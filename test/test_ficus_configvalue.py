@@ -1,4 +1,4 @@
-from ficus.parse import ConfigValue
+from conficus.parse import ConfigValue
 
 
 def test_ficus_config_value_single_line():
