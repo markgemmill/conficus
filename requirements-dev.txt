@@ -1,0 +1,14 @@
+#[dev-packages]
+ipython
+pytest
+flake8
+coverage
+pylint
+pytest-cov
+mkdocs
+toolz
+tox
+
+# [packages]
+six
+pathlib
