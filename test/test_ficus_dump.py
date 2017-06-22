@@ -1,6 +1,6 @@
-from collections import OrderedDict
 from datetime import datetime
-from ficus.format import format_dict
+from collections import OrderedDict
+from conficus.format import format_dict
 
 
 default_config = OrderedDict({

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from os.path import basename, splitext
+from glob import glob
+from setuptools import setup
+from setuptools import find_packages
 
 
 __version__ = '0.1.1'
@@ -14,19 +14,20 @@ with open('README.md') as readme_file:
 
 
 setup_options = {
-    'name': 'ficus',
+    'name': 'conficus',
     'version': __version__,
     'description': "ini config library",
     'long_description': readme,
     'author': "Mark Gemmill",
     'author_email': 'mark@markgemmill.com',
     'url': 'https://bitbucket.org/mgemmill/ficus',
-    'packages': ['ficus'],
-    'package_dir': {'ficus': 'ficus'},
+    'packages': find_packages(where='src'),
+    'package_dir': {'': 'src'},
+    'py_modules': [splitext(basename(i))[0] for i in glob("src/*.py")],
     'include_package_data': True,
-    'install_requires': [],
     'zip_safe': False,
-    'keywords': 'ficus',
+    'keywords': 'conficus ini configurtion',
+    'install_requires': [],
     'classifiers': [
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
