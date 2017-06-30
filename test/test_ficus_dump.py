@@ -1,3 +1,4 @@
+import pytest
 from datetime import datetime
 from collections import OrderedDict
 from conficus.format import format_dict
@@ -19,6 +20,7 @@ default_config = OrderedDict({
 })
 
 
+@pytest.mark.skip(reason="incomplete functionality")
 def test_dump_section():
     ini = format_dict(default_config)
 
