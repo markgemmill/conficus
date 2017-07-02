@@ -1,13 +1,9 @@
-###  INI Format Features with ficus
-
-I'm showing Henry about mkdocs program.
-
 ### Automatic Coercing of Values
 
-`ficus` will automatically coerce ini values of the following types:
+`conficus` will automatically coerce ini values of the following types:
 
 ```python
->>> import ficus
+>>> import conficus as ficus
 ```
 
 #### Strings
@@ -63,7 +59,7 @@ Date and time values will convert to a datetime:
 datetime.datetime(2017, 10, 12, 10, 12, 9)
 ```
 
-**Dates**
+#### Dates
 
 Date values will convert to datetime:
 
@@ -114,51 +110,4 @@ Commas are optional, but if used they are striped:
 ...     Sarah]''')
 >>> cfg['multiline-list']
 ['Herb', 'Mary', 'John', 'Sarah']
-
 ```
-
-
-### Nested Sections / Dicts
-
-ficus has nested sections. Nested section are defined by section names containing dots ".". 
-For example, "email" is the partent section and "notify" and "errors" are subsections:
-
-```python
->>> INI = '''
-... [email]
-... server = smtp.server.com
-... 
-... [email.notify]
-... to = notify@home.biz
-... subject = Notification from Ficus
-... 
-... [email.errors]
-... to = admin@home.biz
-... subject = Fatal Error Has Occurred'''
-... 
-... cfg = ficus.load(INI)
-... 
-```
-
-The resulting configuration object is just a dictionary, so these nested sections
-can be accessed as such:
-
-```python
->>> cfg['email']
-'smtp.server.com'
->>> cfg['email']['notify']
-'notify@home.biz'
-```
-
-However, you can also access the section by its full name:
-
-```
->>> cfg['email.notify']
-'notify@home.biz'
-```
-
-
-### Inheritence
-
-There is an option to push parent 
-
