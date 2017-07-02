@@ -8,4 +8,6 @@ docs/site
 site/
 .flake8.log
 session.txt
-src/conficus.egg-info
+src/conficus.egg-info/*
+docs/site/*
+test/__pycache__

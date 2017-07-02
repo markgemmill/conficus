@@ -1,11 +1,14 @@
-site_name: ficus 
+site_name: conficus 
 
 pages:
     - Home: index.md
-    - Features: features.md
+    - Features: 
+        - coercion.md
+        - Nested Sections: nested-sections.md
+        - inheritance.md
 
-site_url: https://ficus.markgemmill.com
-repo_url: https://bitbucket.org/mgemmill/ficus
+site_url: https://conficus.markgemmill.com
+repo_url: https://bitbucket.org/mgemmill/conficus
 site_description: INI configuration library
 site_author: Mark Gemmill
 copyright: 2017 Mark Gemmill
@@ -24,8 +27,8 @@ extra_javascript:
 extra:
     logo_name: foo
     logo_title: foo-title
-    #extra_nav_links:   
-        #Fork me on GitHub: https://bitbucket.org/mgemmill/ficus
+    extra_nav_links:   
+        Fork me on GitHub: https://bitbucket.org/mgemmill/ficus
     homepage_sidebars: [about, toc, related, search] 
     show_powered_by: false 
 

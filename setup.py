@@ -6,7 +6,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 
 with open('README.md') as readme_file:
@@ -32,6 +32,9 @@ setup_options = {
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'License :: OSI Approved :: MIT License'
