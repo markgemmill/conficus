@@ -6,10 +6,10 @@ from setuptools import setup
 from setuptools import find_packages
 
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 
-with open('README.md') as readme_file:
+with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 

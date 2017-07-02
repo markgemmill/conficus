@@ -2,7 +2,7 @@ graft src
 graft test
 
 include setup.py
-include README.md
+include README.rst
 include LICENSE
 iclude test
 include tox.ini
