@@ -6,7 +6,7 @@
 
 `conficus` is a python ini configuration utility. It reads ini-based
 configuration files into a python dict. `conficus` provides automatic coercing of 
-values (e.g. str -> int), nested sections, easy access and section inheritence.
+values (e.g. str -> int), nested sections, easy access and section inheritance.
 
 
 ### Installation
