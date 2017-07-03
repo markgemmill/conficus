@@ -1,7 +1,7 @@
 # Conficus - Python INI Configuration
 
-![Alt url](https://img.shields.io/badge/version-v0.1.2-green.svg "v0.1.2")
-![Alt url](https://img.shields.io/badge/coverage-100%25-green.svg "100% Coverage")
+![version-badge](https://img.shields.io/badge/version-v0.1.4-green.svg "v0.1.4")
+![coverage-badge](https://img.shields.io/badge/coverage-100%25-green.svg "100% Coverage")
 
 
 `conficus` is a python ini configuration utility. It reads ini-based

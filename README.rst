@@ -1,7 +1,7 @@
 Conficus - Python INI Configuration
 ===================================
 
-|Alt url| |Alt url|
+|version-badge| |coverage-badge|
 
 ``conficus`` is a python ini configuration utility. It reads ini-based
 configuration files into a python dict. ``conficus`` provides automatic
@@ -39,6 +39,6 @@ Basic usage:
     >>> print config['app.debug']
     True
 
-.. |Alt url| image:: https://img.shields.io/badge/version-v0.1.2-green.svg
-.. |Alt url| image:: https://img.shields.io/badge/coverage-100%25-green.svg
+.. |version-badge| image:: https://img.shields.io/badge/version-v0.1.4-green.svg
+.. |coverage-badge| image:: https://img.shields.io/badge/coverage-100%25-green.svg
 
