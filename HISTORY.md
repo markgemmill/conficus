@@ -1,6 +1,21 @@
 ### Release History
 
 
+##### v0.2.1 (2018-01-07)
+
+- fixed bug when coercing boolean string values that contain
+  extra white space.
+
+##### v0.2.0 (2017-12-31)
+
+- added ability to pass an environment variable name as a config_path.
+
+
+##### v0.1.5 (2017-07-03)
+
+- added documentation site
+
+
 ##### v0.1.4 (2017-07-02)
 
 - using readme_renderer from PYPA to check for proper

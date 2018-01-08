@@ -6,7 +6,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 
-__version__ = '0.1.4'
+__version__ = '0.2.1'
 
 
 with open('README.rst') as readme_file:
@@ -20,7 +20,8 @@ setup_options = {
     'long_description': readme,
     'author': "Mark Gemmill",
     'author_email': 'mark@markgemmill.com',
-    'url': 'https://bitbucket.org/mgemmill/conficus',
+    'url': 'http://thebitsilo.com/dev/conficus/current',
+    'download_url': 'https://bitbucket.org/mgemmill/conficus',
     'packages': find_packages(where='src'),
     'package_dir': {'': 'src'},
     'py_modules': [splitext(basename(i))[0] for i in glob("src/*.py")],

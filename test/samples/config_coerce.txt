@@ -19,6 +19,8 @@ val3=yes
 val4=YES
 val5=Y
 val6=t
+# added white space
+val7=YES    
 
 [bool-false]
 val1 = false
@@ -27,6 +29,8 @@ val3 = no
 val4 = NO 
 val5 = N 
 val6 = f
+# added white space
+val7 = NO    
 
 [datetime]
 value = 2017-05-31T10:00:00

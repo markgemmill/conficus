@@ -5,8 +5,20 @@ from .parse import matcher, substituter
 
 
 def coerce_single_line(value, *coercers):
+    # the match object here may not always 
+    # return the same thing -
+    # TODO: fix this - sometimes it will be a regex matcher
+    # that returns a groupdict or else it might be a different
+    # function....
     for match, convert in chain(*coercers):
-        if match(value):
+        m = match(value)
+        # print(m)
+        # if m is False:
+            # print(value)
+            # print(match)
+        if isinstance(m, dict):
+            value = m.get('value', value)
+        if m:
             return convert(value)
     # this should never return, but is here for safety
     return value  # pragma: no cover
@@ -31,15 +43,15 @@ def coerce_str(value):
 simple_coercers = [
     (matcher(r'^(?P<value>\d+)$'), int),
     (matcher(r'^(?P<value>\d+\.\d+)$'), float),
-    (matcher(r'^(?P<value>(true|false|yes|no|y|n|t|f))$'),
+    (matcher(r'^(?P<value>(true|false|yes|no|y|n|t|f))\s*$'),
         coerce_bool),
-    (matcher(r'^(?P<value>\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d)$'),
+    (matcher(r'^(?P<value>\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d)\s*$'),
         coerce_datetime('%Y-%m-%dT%H:%M:%S')),
-    (matcher(r'^(?P<value>\d{4}-\d\d-\d\d)$'),
+    (matcher(r'^(?P<value>\d{4}-\d\d-\d\d)\s*$'),
         coerce_datetime('%Y-%m-%d')),
-    (matcher(r'^(?P<value>\d\d:\d\d:\d\d)$'),
+    (matcher(r'^(?P<value>\d\d:\d\d:\d\d)\s*$'),
         coerce_datetime('%H:%M:%S')),
-    (matcher(r'^(?P<value>("{1,3})?.*("{1,3})?) *$'),
+    (matcher(r'^(?P<value>("{1,3})?.*("{1,3})?)\s*$'),
         coerce_str)]
 
 
