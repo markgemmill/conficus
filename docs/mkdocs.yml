@@ -7,7 +7,7 @@ pages:
         - Nested Sections: nested-sections.md
         - inheritance.md
 
-site_url: https://conficus.markgemmill.com
+site_url: http://thebitsilo.com/dev/conficus/current
 repo_url: https://bitbucket.org/mgemmill/conficus
 site_description: INI configuration library
 site_author: Mark Gemmill
@@ -28,7 +28,7 @@ extra:
     logo_name: foo
     logo_title: foo-title
     extra_nav_links:   
-        Fork me on GitHub: https://bitbucket.org/mgemmill/ficus
+        Bitbucket: https://bitbucket.org/mgemmill/conficus
     homepage_sidebars: [about, toc, related, search] 
     show_powered_by: false 
 

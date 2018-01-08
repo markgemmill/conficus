@@ -1,6 +1,6 @@
 # Conficus - Python INI Configuration
 
-![version-badge](https://img.shields.io/badge/version-v0.1.4-green.svg "v0.1.4")
+![version-badge](https://img.shields.io/badge/version-v0.2.0-green.svg "v0.2.0")
 ![coverage-badge](https://img.shields.io/badge/coverage-100%25-green.svg "100% Coverage")
 
 
@@ -26,8 +26,27 @@ Basic usage:
 >>> 
 >>> import conficus as ficus
 >>>
+
+```
+
+Configurations can be loaded from a file path string:
+
+```python
 >>> config = ficus.load('/Users/mgemmill/config.ini')
 >>>
+
+```
+
+Or from path stored in an environment variable:
+
+
+```python
+>>> config = ficus.load('ENV_VAR_CONFIG_PATH')
+>>>
+
+```
+
+```python
 >>> # configuration is just a dictionary:
 ... 
 >>> print config['app']['debug']
