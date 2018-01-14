@@ -1,4 +1,5 @@
-def format_dict(defaults):
+def format_dict(defaults):  # noqa C901
+
     if not isinstance(defaults, dict):
         raise Exception('Ficus requires a dict to write to file.')
 

@@ -1,6 +1,6 @@
 # Conficus - Python INI Configuration
 
-![version-badge](https://img.shields.io/badge/version-v0.2.0-green.svg "v0.2.0")
+![version-badge](https://img.shields.io/badge/version-v0.2.2-green.svg "v0.2.2")
 ![coverage-badge](https://img.shields.io/badge/coverage-100%25-green.svg "100% Coverage")
 
 
