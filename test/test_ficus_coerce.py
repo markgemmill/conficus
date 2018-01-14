@@ -5,7 +5,7 @@ from conficus.parse import FicusDict
 
 def test_ficus_count_config_values(coerce_cfg):
     items = [i for i in coerce_cfg.walk_values()]
-    assert len(items) == 30 
+    assert len(items) == 35
 
 
 def test_ficus_coerce_numbers(coerce_cfg):
@@ -25,6 +25,15 @@ def test_ficus_coerce_lists(coerce_cfg):
     assert config['single-line-list.strings'] == ['one', 'two', 'three']
 
 
+def test_ficus_coerce_tuples(coerce_cfg):
+    config = conficus.coerce(coerce_cfg)
+
+    assert config['empty-tuple.value'] == tuple()
+    assert config['single-line-tuple.integers'] == (1, 2, 3, 4)
+    assert config['single-line-tuple.floats'] == (3.4, 3.4)
+    assert config['single-line-tuple.strings'] == ('one', 'two', 'three')
+
+
 def test_ficus_coerce_boolean(coerce_cfg):
     config = conficus.coerce(coerce_cfg)
 
@@ -35,6 +44,7 @@ def test_ficus_coerce_boolean(coerce_cfg):
     assert config['bool-true.val5'] is True
     assert config['bool-true.val6'] is True
     assert config['bool-true.val7'] is True
+    assert config['bool-true.val8'] is True
 
     assert config['bool-false.val1'] is False
     assert config['bool-false.val2'] is False

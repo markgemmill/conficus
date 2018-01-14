@@ -1,10 +1,15 @@
 ### Release History
 
+##### v0.2.2 (2018-01-14)
+
+- extended sequence coercion to include tuples.
+
 
 ##### v0.2.1 (2018-01-07)
 
 - fixed bug when coercing boolean string values that contain
   extra white space.
+
 
 ##### v0.2.0 (2017-12-31)
 

@@ -34,11 +34,3 @@ def coerce_cfg():
 def multiline_cfg():
     lines = conficus.read_config(str(PATHS['multiline']))
     return conficus.parse(lines)
-
-
-@pytest.fixture
-def toml_sample():
-    lines = conficus.read_config(str(PATHS['toml']))
-    return conficus.parse(lines)
-
-

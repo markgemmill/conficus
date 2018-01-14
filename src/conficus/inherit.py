@@ -1,7 +1,7 @@
 from .parse import FicusDict
 
 
-def inherit(config):
+def inherit(config):  # noqa C901
     '''
     ficus.inherit pushes the configuration values of
     parent section down to its child sections.

@@ -11,12 +11,14 @@ site_url: http://thebitsilo.com/dev/conficus/current
 repo_url: https://bitbucket.org/mgemmill/conficus
 site_description: INI configuration library
 site_author: Mark Gemmill
-copyright: 2017 Mark Gemmill
+copyright: 2018 Mark Gemmill
 use_directory_urls: true
 
-theme: alabaster
+#theme: alabaster
+#theme: simplex
+theme: yeti
 
-theme_dir: custom_theme
+#theme_dir: custom_theme
 
 extra_css:
     - css/highlight.css

@@ -5,17 +5,14 @@ from .parse import matcher, substituter
 
 
 def coerce_single_line(value, *coercers):
-    # the match object here may not always 
+    # the match object here may not always
     # return the same thing -
     # TODO: fix this - sometimes it will be a regex matcher
     # that returns a groupdict or else it might be a different
     # function....
     for match, convert in chain(*coercers):
         m = match(value)
-        # print(m)
-        # if m is False:
-            # print(value)
-            # print(match)
+
         if isinstance(m, dict):
             value = m.get('value', value)
         if m:
@@ -55,19 +52,43 @@ simple_coercers = [
         coerce_str)]
 
 
-def match_single_line_list(value):
-    return value.startswith('[') and value.endswith(']')
+def match_iterable(start_bracket, end_bracket):
+
+    def _match_iterable(value):
+        return value.startswith(start_bracket) and value.endswith(end_bracket)
+
+    return _match_iterable
 
 
-def coerce_single_line_list(value):
-    value = value.lstrip('[').rstrip(']')
-    if not value:
-        return []
-    return [coerce_single_line(v.strip(), simple_coercers) for v
-            in value.split(',')]
+def coerce_iterable(start_bracket, end_bracket, use_tuple=False):
+
+    def _coerce_iterable(value):
+        value = value[1:-1]
+
+        if not value and use_tuple is False:
+            return []
+        elif not value:
+            return tuple()
+
+        iterable = [coerce_single_line(v.strip(), simple_coercers) for v
+                    in value.split(',')]
+        if use_tuple:
+            iterable = tuple(iterable)
+
+        return iterable
+
+    return _coerce_iterable
 
 
-list_coercers = [(match_single_line_list, coerce_single_line_list)]
+match_single_line_list = match_iterable('[', ']')
+match_single_line_tuple = match_iterable('(', ')')
+
+coerce_single_line_list = coerce_iterable('[', ']')
+coerce_single_line_tuple = coerce_iterable('(', ')', use_tuple=True)
+
+
+list_coercers = [(match_single_line_list, coerce_single_line_list),
+                 (match_single_line_tuple, coerce_single_line_tuple)]
 
 
 def match_multiline_list(value):

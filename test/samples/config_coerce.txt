@@ -12,6 +12,17 @@ integers = [1, 2, 3, 4]
 strings = [one, two, three]
 floats = [3.4, 3.4 ]
 
+[empty-tuple]
+value = ()
+
+[single-line-tuple]
+integers = (1, 2, 3, 4)
+strings = (one, two, three)
+floats = (3.4, 3.4 )
+
+# [single-line-list-of-tuples]
+# list_of_tuples = [(1,2,3,4), (5,6), (7,8,9)]
+
 [bool-true]
 val1=true
 val2=True
@@ -21,6 +32,7 @@ val5=Y
 val6=t
 # added white space
 val7=YES    
+val8 = yes
 
 [bool-false]
 val1 = false
