@@ -1,3 +1,4 @@
+# pylint: disable=unused-argument
 import re
 from functools import wraps
 from collections import OrderedDict
@@ -71,6 +72,7 @@ def matcher(regex):
     '''
     rx = re.compile(regex, re.I)
 
+    # pylint: disable=inconsistent-return-statements
     def _matcher(line):
         m = rx.match(line)
         if m:
@@ -106,13 +108,13 @@ class ConfigValue(object):
     def value(self):
         if self.multiline:
             return '\n'.join(self.raw_value)
-        if self.raw_value:
-            return str(self.raw_value[0])
+        #if self.raw_value:
+        return str(self.raw_value[0])
 
     def __deepcopy__(self, memo):
         return self.end_value
 
-
+# pylint: disable=too-few-public-methods
 class parser(object):
     '''
     A decorator that wraps common functioning of
@@ -229,8 +231,8 @@ def parse(config_lines):
 
         line = rmv_crlf(config_lines.pop(0))
 
-        for parser in parsers:
-            line = parser(line, parm)
+        for _parser in parsers:
+            line = _parser(line, parm)
 
             if line is None:
                 break

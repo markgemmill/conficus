@@ -36,20 +36,25 @@ def coerce_datetime(date_fmt):
 def coerce_str(value):
     return value.strip('"')
 
+def coerce_none(value):
+    return None
+
 
 simple_coercers = [
+    (matcher(r'^(?P<value> +)$'), coerce_none),
+    (matcher(r'^(?P<value>)$'), coerce_none),
     (matcher(r'^(?P<value>\d+)$'), int),
     (matcher(r'^(?P<value>\d+\.\d+)$'), float),
     (matcher(r'^(?P<value>(true|false|yes|no|y|n|t|f))\s*$'),
-        coerce_bool),
+     coerce_bool),
     (matcher(r'^(?P<value>\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d)\s*$'),
-        coerce_datetime('%Y-%m-%dT%H:%M:%S')),
+     coerce_datetime('%Y-%m-%dT%H:%M:%S')),
     (matcher(r'^(?P<value>\d{4}-\d\d-\d\d)\s*$'),
-        coerce_datetime('%Y-%m-%d')),
+     coerce_datetime('%Y-%m-%d')),
     (matcher(r'^(?P<value>\d\d:\d\d:\d\d)\s*$'),
-        coerce_datetime('%H:%M:%S')),
+     coerce_datetime('%H:%M:%S')),
     (matcher(r'^(?P<value>("{1,3})?.*("{1,3})?)\s*$'),
-        coerce_str)]
+     coerce_str)]
 
 
 def match_iterable(start_bracket, end_bracket):
@@ -60,7 +65,7 @@ def match_iterable(start_bracket, end_bracket):
     return _match_iterable
 
 
-def coerce_iterable(start_bracket, end_bracket, use_tuple=False):
+def coerce_iterable(use_tuple=False):
 
     def _coerce_iterable(value):
         value = value[1:-1]
@@ -83,8 +88,8 @@ def coerce_iterable(start_bracket, end_bracket, use_tuple=False):
 match_single_line_list = match_iterable('[', ']')
 match_single_line_tuple = match_iterable('(', ')')
 
-coerce_single_line_list = coerce_iterable('[', ']')
-coerce_single_line_tuple = coerce_iterable('(', ')', use_tuple=True)
+coerce_single_line_list = coerce_iterable()
+coerce_single_line_tuple = coerce_iterable(use_tuple=True)
 
 
 list_coercers = [(match_single_line_list, coerce_single_line_list),

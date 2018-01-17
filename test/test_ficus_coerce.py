@@ -5,8 +5,15 @@ from conficus.parse import FicusDict
 
 def test_ficus_count_config_values(coerce_cfg):
     items = [i for i in coerce_cfg.walk_values()]
-    assert len(items) == 35
+    assert len(items) == 39
 
+
+def test_ficus_coerce_empty_values(coerce_cfg):
+    config = conficus.coerce(coerce_cfg)
+    assert config['empty-values.value1'] == None 
+    assert config['empty-values.value2'] == None 
+    assert config['empty-values.value3'] == None 
+    assert config['empty-values.value4'] == None 
 
 def test_ficus_coerce_numbers(coerce_cfg):
     config = conficus.coerce(coerce_cfg)
