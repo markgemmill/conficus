@@ -1,5 +1,10 @@
 ### Release History
 
+#### v0.2.3 (2018-01-14)
+
+- fixed bug with dict.get method
+
+
 ##### v0.2.2 (2018-01-14)
 
 - extended sequence coercion to include tuples.

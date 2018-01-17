@@ -54,6 +54,6 @@ Or from path stored in an environment variable:
     >>> print config['app.debug']
     True
 
-.. |version-badge| image:: https://img.shields.io/badge/version-v0.2.2-green.svg
+.. |version-badge| image:: https://img.shields.io/badge/version-v0.2.3-green.svg
 .. |coverage-badge| image:: https://img.shields.io/badge/coverage-100%25-green.svg
 

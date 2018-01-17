@@ -18,13 +18,14 @@ use_directory_urls: true
 #theme: simplex
 theme: yeti
 
-#theme_dir: custom_theme
+theme_dir: custom_theme
 
 extra_css:
-    - css/highlight.css
+    - highlight/styles/zenburn.css
 
 extra_javascript:
-    - js/highlight.pack.js
+    - highlight/highlight.pack.js
+    - js/conficus.js
 
 extra:
     logo_name: foo
