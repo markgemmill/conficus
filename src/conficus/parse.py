@@ -18,6 +18,12 @@ class FicusDict(OrderedDict):
         config['parent.child']
 
     '''
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
+
     def __getitem__(self, key):
         if '.' not in key:
             return super(FicusDict, self).__getitem__(key)
@@ -144,13 +150,19 @@ def parse_section(match, line, parm):
     return None
 
 
-@parser(r'^ *(?P<key>\S*)( ?= ?|: )(?P<value>.*)$')
+@parser(r'^ *(?P<key>[A-Za-z0-9_\-\./\|]+)( ?= ?|: )(?P<value>.*)$')
 def parse_option(match, line, parm):
     '''
     An option is any line that begins with a `name` followed
     by an equals sign `=` followed by some value:
 
-    name = 12
+        name = 12
+        name.subject = 12
+        name/subject = 12
+        name-subject = 12
+        name|subject = 12
+        name.subject1 = 12
+        Name.Subject3 = 12
 
     '''
     key = match['key'].strip()
