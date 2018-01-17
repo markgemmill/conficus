@@ -20,9 +20,9 @@ def test_ficus_dict_get():
     config = conficus.load(CONFIG)
 
     # sanity check
-    assert config['app.debug'] is True 
+    assert config['app.debug'] is True
     assert config['email.errors.to'] == 'admin@email.com'
 
     assert config.get('email.errors.to', 'foo@email.com') == 'admin@email.com'
-    assert config.get('foo.not.there') == None
+    assert config.get('foo.not.there') is None
     assert config.get('foo.not.there', 'no.foo.not.there') == 'no.foo.not.there'

@@ -1,3 +1,4 @@
+# pylint: disable=unused-argument
 from .parse import FicusDict
 
 

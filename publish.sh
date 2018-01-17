@@ -28,9 +28,12 @@ echo "##############################"
 
 # get rid of the original
 rm README.rst
+rm HISTORY.md
 
 # create README.rst for docs/index.md
 pandoc --from=markdown --to=rst --output=README.rst docs/docs/index.md
+# copy release-history.md from docs/release-history.md
+cp docs/docs/release-history.md HISTORY.md
 
 # at this point, we should run `python setup.py check -r -s` to 
 # be sure we have the proper formatting.
@@ -69,7 +72,7 @@ mkdocs build
 echo "#######################################"
 echo "SYNCING CONFICUS ${VERSION} WEBSITE...."
 echo "#######################################"
-rsync -r ./site/ aedilis@web591.webfaction.com:webapps/thebitsilo_www/dev/conficus/${VERSION}/
+rsync -r --delete ./site/ aedilis@web591.webfaction.com:webapps/thebitsilo_www/dev/conficus/current/
 
 # return to starting directory
 cd ..

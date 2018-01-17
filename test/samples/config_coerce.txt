@@ -7,6 +7,12 @@ value = 2.0
 [empty-list]
 value = []
 
+[empty-values]
+value1 = 
+value2=
+value3=      
+value4 =        
+
 [single-line-list]
 integers = [1, 2, 3, 4]
 strings = [one, two, three]
