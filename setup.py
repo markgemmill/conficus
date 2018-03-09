@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from os.path import basename, splitext
+
 from glob import glob
 from setuptools import setup
 from setuptools import find_packages
 
 
-__version__ = '0.2.4'
+__version__ = '0.3.0'
 
 
 with open('README.rst') as readme_file:
