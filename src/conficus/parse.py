@@ -71,7 +71,7 @@ def parse_section(match, line, parm):
     return None
 
 
-@parser(r'^ *(?P<key>[A-Za-z0-9_\-\./\|]+)( ?= ?|: )(?P<value>.*)$')
+@parser(r'^ {0,2}(?P<key>[A-Za-z0-9_\-\./\|]+)( ?= ?|: )(?P<value>.*)$')
 def parse_option(match, line, parm):
     '''
     An option is any line that begins with a `name` followed

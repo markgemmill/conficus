@@ -9,7 +9,8 @@ PATHS = {
     'config': Path(DOCS, 'config.txt'),
     'coerce': Path(DOCS, 'config_coerce.txt'),
     'multiline': Path(DOCS, 'config_multiline.txt'),
-    'toml': Path(DOCS, 'example-v0.4.0.toml')
+    'toml': Path(DOCS, 'example-v0.4.0.toml'),
+    'wilderness': Path(DOCS, 'the_wild.txt')
 }
 
 
@@ -34,3 +35,4 @@ def coerce_cfg():
 def multiline_cfg():
     lines = conficus.read_config(str(PATHS['multiline']))
     return conficus.parse(lines)
+

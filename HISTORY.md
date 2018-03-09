@@ -1,10 +1,19 @@
 ## Release History
 
-#### v0.2.5 (2018-02-16)
+#### v0.3.1 (2018-03-08)
+
+- Fixed bug with multiline string containing "=" sign.
+  Enforcing a maximum of 2 blank spaces prior to an 
+  option declaration. Anything 3 or more is considered and
+  indented continuation of the previous line.
+
+
+#### v0.3.0 (2018-02-16)
 
 - added option for coercing path strings into pathlib Path objects.
 - added option for coercing decimal numbers as Decimal objects, instead of floats.
-- updated file/object naming and dropped use of `ficus`
+- updated code file/object naming and dropped use of `ficus`
+
 
 #### v0.2.4 (2018-01-16)
 
