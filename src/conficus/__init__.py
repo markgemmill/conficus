@@ -30,11 +30,11 @@ def read_config(config_input):
     return config_input.split('\n')
 
 
-def load(config_path, inheritance=False, readonly=True):
+def load(config_path, inheritance=False, readonly=True, use_pathlib=False, use_decimal=False):
 
     config = parse(read_config(config_path))
 
-    config = coerce(config)
+    config = coerce(config, pathlib=use_pathlib, decimal=use_decimal)
 
     if inheritance is True:
         config = inherit(config)

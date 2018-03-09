@@ -30,10 +30,9 @@ setup_options = {
     'keywords': 'conficus ini configurtion',
     'install_requires': ['pathlib2 >= 2.3.0;python_version<"3.4"'],
     'classifiers': [
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',

@@ -1,14 +1,13 @@
 import pytest
-from conficus.parse import FicusDict
+from conficus.parse import ConfigDict
 from conficus.readonly import ReadOnlyDict
 
 
-def test_ficus_readonly_dict():
-
-    d = FicusDict()
-    d['one'] = FicusDict()
+def test_readonly_dict(): 
+    d = ConfigDict()
+    d['one'] = ConfigDict()
     d['one']['name'] = 'one'
-    d['one']['two'] = FicusDict()
+    d['one']['two'] = ConfigDict()
     d['one']['two']['name'] = 'one two'
 
     d = ReadOnlyDict(d)

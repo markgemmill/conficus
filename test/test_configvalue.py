@@ -1,14 +1,14 @@
 from conficus.parse import ConfigValue
 
 
-def test_ficus_config_value_single_line():
+def test_config_value_single_line():
     cfgval = ConfigValue('random value')
 
     assert cfgval.multiline is False
     assert cfgval.value == 'random value'
 
 
-def test_ficus_config_value_multiline():
+def test_config_value_multiline():
     cfgval = ConfigValue('A multiline value')
     cfgval.add('that has multiple lines.')
 

@@ -1,3 +1,5 @@
+root_value = true
+
 [root_section]
 [root.leaf]
 [root.leaf.sub]

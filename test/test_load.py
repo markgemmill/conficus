@@ -16,7 +16,7 @@ cc = []
 '''
 
 
-def test_ficus_load_defaults():
+def test_load_defaults():
 
     config = conficus.load(CONFIG)
 
@@ -30,7 +30,7 @@ def test_ficus_load_defaults():
     assert config.readonly is True
 
 
-def test_ficus_read_config(cfg_pth):
+def test_read_config(cfg_pth):
     from os import environ
     PATH = str(cfg_pth['config'])
     environ['FICUS_LOAD_PATH_TEST'] = PATH
@@ -45,7 +45,7 @@ def test_ficus_read_config(cfg_pth):
     assert config_from_env_var == config_from_string
 
 
-def test_ficus_load_with_inheritence():
+def test_load_with_inheritence():
 
     config = conficus.load(CONFIG, inheritance=True)
 
@@ -59,7 +59,7 @@ def test_ficus_load_with_inheritence():
     assert config.readonly is True
 
 
-def test_ficus_load_with_non_readonly():
+def test_load_with_non_readonly():
 
     config = conficus.load(CONFIG, inheritance=True, readonly=False)
 

@@ -1,5 +1,4 @@
 pytest
 coverage
 pytest-cov
-pathlib
 pathlib2
