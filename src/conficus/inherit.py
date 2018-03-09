@@ -1,4 +1,4 @@
-from .parse import FicusDict
+from .parse import ConfigDict
 
 
 def inherit(config):  # noqa C901
@@ -35,12 +35,12 @@ def inherit(config):  # noqa C901
         # on the section
         section_options = {}
         for key, val in section.items():
-            if not isinstance(val, FicusDict):
+            if not isinstance(val, ConfigDict):
                 section_options[key] = val
         # finally, push down the sections options
         # to all its sub-sections
         for key, val in section.items():
-            if isinstance(val, FicusDict):
+            if isinstance(val, ConfigDict):
                 _inherit(section_options, val)
 
     _inherit({}, config)

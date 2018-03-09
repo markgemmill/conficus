@@ -1,8 +1,8 @@
 # pylint: disable=unused-argument
-from .parse import FicusDict
+from .parse import ConfigDict
 
 
-class ReadOnlyDict(FicusDict):
+class ReadOnlyDict(ConfigDict):
 
     def __init__(self, src):
         super(ReadOnlyDict, self).__init__(src)
@@ -11,7 +11,7 @@ class ReadOnlyDict(FicusDict):
     def __setitem__(self, key, item):
         if hasattr(self, 'readonly'):
             raise TypeError('Key `{}` is read only!'.format(key))
-        if isinstance(item, FicusDict):
+        if isinstance(item, ConfigDict):
             item = ReadOnlyDict(item)
         return super(ReadOnlyDict, self).__setitem__(key, item)
 

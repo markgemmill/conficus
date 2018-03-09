@@ -15,7 +15,7 @@ to = admin@email.com
 '''
 
 
-def test_ficus_dict_get():
+def test_dict_get():
 
     config = conficus.load(CONFIG)
 

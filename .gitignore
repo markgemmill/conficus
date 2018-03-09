@@ -14,3 +14,4 @@ ficus.egg-info/
 session.txt
 site/
 src/conficus.egg-info/*
+.tox

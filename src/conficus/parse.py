@@ -1,65 +1,7 @@
 # pylint: disable=unused-argument
 import re
 from functools import wraps
-from collections import OrderedDict
-
-
-class FicusDict(OrderedDict):
-    '''
-    FicusDict is an override of standard dictionary
-    to allow dot-named access to nested dictionary
-    values.
-
-    The standard nested call:
-
-        config['parent']['child']
-
-    can also be accessed as:
-
-        config['parent.child']
-
-    '''
-    def get(self, key, default=None):
-        try:
-            return self[key]
-        except KeyError:
-            return default
-
-    def __getitem__(self, key):
-        if '.' not in key:
-            return super(FicusDict, self).__getitem__(key)
-        segments = key.split('.')
-        end = self
-        for seg in segments:
-            end = super(FicusDict, end).__getitem__(seg)
-        return end
-
-    def __contains__(self, key):
-        if '.' not in key:
-            return super(FicusDict, self).__contains__(key)
-        segments = key.split('.')
-        end = self
-        contains = False
-        for seg in segments:
-            contains = super(FicusDict, end).__contains__(seg)
-            if not contains:
-                return contains
-            end = super(FicusDict, end).__getitem__(seg)
-        return contains
-
-    def walk_values(self):
-        _values = []
-
-        def _recurse(section, v):
-            for val in super(FicusDict, section).values():
-                if isinstance(val, FicusDict):
-                    _recurse(val, v)
-                if isinstance(val, ConfigValue):
-                    v.append(val)
-
-        _recurse(self, _values)
-
-        return _values
+from .structs import ConfigDict, ConfigValue
 
 
 def matcher(regex):
@@ -90,29 +32,6 @@ def substituter(regex, sub):
 
     return _substituter
 
-
-class ConfigValue(object):
-
-    def __init__(self, initial_value):
-        self.raw_value = [initial_value]
-        self.end_value = None
-
-    def add(self, value):
-        self.raw_value.append(value)
-
-    @property
-    def multiline(self):
-        return len(self.raw_value) > 1
-
-    @property
-    def value(self):
-        if self.multiline:
-            return '\n'.join(self.raw_value)
-        #if self.raw_value:
-        return str(self.raw_value[0])
-
-    def __deepcopy__(self, memo):
-        return self.end_value
 
 # pylint: disable=too-few-public-methods
 class parser(object):
@@ -147,7 +66,7 @@ def parse_section(match, line, parm):
     section_heirarchy = section_name.split('.')
     section_dict = parm['config']
     for section in section_heirarchy:
-        section_dict = section_dict.setdefault(section, FicusDict())
+        section_dict = section_dict.setdefault(section, ConfigDict())
     parm['current_section'] = section_dict
     return None
 
@@ -217,7 +136,7 @@ def parse(config_lines):
                parse_comment,
                parse_unknown)
 
-    config = FicusDict()
+    config = ConfigDict()
 
     parm = {
         'config': config,

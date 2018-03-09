@@ -1,14 +1,14 @@
 import conficus
-from conficus.parse import FicusDict
+from conficus.parse import ConfigDict
 from conficus.parse import ConfigValue
 from conficus.parse import parse
 
 
-def test_ficus_dict_contains():
+def test_dict_contains():
 
-    d = FicusDict()
-    d['one'] = FicusDict()
-    d['one']['two'] = FicusDict()
+    d = ConfigDict()
+    d['one'] = ConfigDict()
+    d['one']['two'] = ConfigDict()
     d['one']['two']['name'] = 'name'
 
     assert 'one' in d
@@ -22,7 +22,7 @@ def test_ficus_dict_contains():
 # TODO: Do we want to do this?
 # Originally had this requirement, but think we
 # removed it and just let it be ignored.
-# def test_ficus_invalid_indent():
+# def test_invalid_indent():
 #    # raw_lines = [
 #        # '[section]\n',
 #        # '# comment line\n',
@@ -33,11 +33,16 @@ def test_ficus_dict_contains():
 #        # parse(raw_lines)
 #
 
-def test_ficus_dict_values(raw_cfg):
+def test_dict_values(raw_cfg):
     items = [i for i in raw_cfg.walk_values()]
-    assert len(items) == 10
-    assert items[0].value == 'penguins for stanley'
-    assert items[9].value == '1'
+    assert len(items) == 11
+    assert items[0].value == 'true'
+    assert items[1].value == 'penguins for stanley'
+    assert items[10].value == '1'
+
+
+def test_root_values(raw_cfg):
+    assert raw_cfg['root_value'].value == 'true'
 
 
 def test_section_parsing(raw_cfg):
