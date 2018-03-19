@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from .format import formatter
 
 
 class ConfigDict(OrderedDict):
@@ -58,6 +59,9 @@ class ConfigDict(OrderedDict):
 
         return _values
 
+    def __str__(self):
+        return formatter(self)
+
 
 class ConfigValue(object):
 
@@ -76,7 +80,7 @@ class ConfigValue(object):
     def value(self):
         if self.multiline:
             return '\n'.join(self.raw_value)
-        #if self.raw_value:
+        # if self.raw_value:
         return str(self.raw_value[0])
 
     def __deepcopy__(self, memo):
@@ -165,6 +169,9 @@ class DoubleLinkedDict(object):
 
     def __setitem__(self, name, value):
         self.append(name, value)
+
+    def __contains__(self, name):
+        return name in self._dict
 
     def replace(self, node_name, content):
         node = ListNode(node_name, content)

@@ -18,12 +18,12 @@ def test_count_config_values(coerce_cfg):
 
 
 def test_coerce_root_value(coerce_cfg):
-    config = conficus.coerce(coerce_cfg)
+    config = conficus._coerce(coerce_cfg)
     assert config['debug'] is True
 
 
 def test_coerce_empty_values(coerce_cfg):
-    config = conficus.coerce(coerce_cfg)
+    config = conficus._coerce(coerce_cfg)
     assert config['empty-values.value1'] is None
     assert config['empty-values.value2'] is None
     assert config['empty-values.value3'] is None
@@ -31,18 +31,18 @@ def test_coerce_empty_values(coerce_cfg):
 
 
 def test_coerce_numbers(coerce_cfg):
-    config = conficus.coerce(coerce_cfg)
+    config = conficus._coerce(coerce_cfg)
 
     assert type(config) == ConfigDict
     assert config['integer.value'] == 1
     assert config['float.value'] == 2.0
 
-    config = conficus.coerce(coerce_cfg, decimal=True)
+    config = conficus._coerce(coerce_cfg, decimal=True)
     assert config['float.value'] == Decimal(2)
 
 
 def test_coerce_lists(coerce_cfg):
-    config = conficus.coerce(coerce_cfg)
+    config = conficus._coerce(coerce_cfg)
 
     assert config['empty-list.value'] == []
     assert config['single-line-list.integers'] == [1, 2, 3, 4]
@@ -51,7 +51,7 @@ def test_coerce_lists(coerce_cfg):
 
 
 def test_coerce_tuples(coerce_cfg):
-    config = conficus.coerce(coerce_cfg)
+    config = conficus._coerce(coerce_cfg)
 
     assert config['empty-tuple.value'] == tuple()
     assert config['single-line-tuple.integers'] == (1, 2, 3, 4)
@@ -60,7 +60,7 @@ def test_coerce_tuples(coerce_cfg):
 
 
 def test_coerce_boolean(coerce_cfg):
-    config = conficus.coerce(coerce_cfg)
+    config = conficus._coerce(coerce_cfg)
 
     assert config['bool-true.val1'] is True
     assert config['bool-true.val2'] is True
@@ -81,7 +81,7 @@ def test_coerce_boolean(coerce_cfg):
 
 
 def test_coerce_datetime(coerce_cfg):
-    config = conficus.coerce(coerce_cfg)
+    config = conficus._coerce(coerce_cfg)
 
     assert isinstance(config['datetime.value'], datetime)
     assert config['datetime.value'].year == 2017
@@ -89,7 +89,7 @@ def test_coerce_datetime(coerce_cfg):
 
 
 def test_coerce_date(coerce_cfg):
-    config = conficus.coerce(coerce_cfg)
+    config = conficus._coerce(coerce_cfg)
 
     assert isinstance(config['date.value'], datetime)
     assert config['date.value'].year == 2017
@@ -97,7 +97,7 @@ def test_coerce_date(coerce_cfg):
 
 
 def test_coerce_string(coerce_cfg):
-    config = conficus.coerce(coerce_cfg)
+    config = conficus._coerce(coerce_cfg)
 
     assert isinstance(config['strings.str1'], str)
     assert config['strings.str1'] == 'unquoted string'
@@ -110,7 +110,7 @@ def test_coerce_string(coerce_cfg):
 
 
 def test_coerce_time(coerce_cfg):
-    config = conficus.coerce(coerce_cfg)
+    config = conficus._coerce(coerce_cfg)
 
     assert isinstance(config['time.value'], datetime)
     assert config['time.value'].year == 1900
@@ -120,7 +120,7 @@ def test_coerce_time(coerce_cfg):
 
 
 def test_coerce_path(coerce_cfg):
-    config = conficus.coerce(coerce_cfg, pathlib=True)
+    config = conficus._coerce(coerce_cfg, pathlib=True)
 
     assert isinstance(config['path.windows1'], Path)
     assert isinstance(config['path.windows2'], Path) is False
@@ -130,7 +130,7 @@ def test_coerce_path(coerce_cfg):
 
 
 def test_coerce_multiline(multiline_cfg):
-    config = conficus.coerce(multiline_cfg)
+    config = conficus._coerce(multiline_cfg)
 
     assert len(config['multiline.list-of-strings']) == 4
     assert config['multiline.list-of-strings'][0] == 'Wonder Woman'

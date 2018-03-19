@@ -53,7 +53,6 @@ coerce_unx_path = (matcher(UNIX_PATH_REGEX), coerce_path())
 coerce_string = (matcher(r'^(?P<value>("{1,3})?.*("{1,3})?)\s*$'), coerce_str)
 
 
-
 def coerce_single_line(value, coercers):
     # the match object here may not always
     # return the same thing -
@@ -100,11 +99,11 @@ def coerce_iterable(coercers, use_tuple=False):
 
 
 def match_multiline_list(value):
-    return value[0].startswith('[') and value[-1].endswith(']')
+    return value[0].strip().startswith('[') and value[-1].strip().endswith(']')
 
 
 def match_multiline_str(value):
-    return value[0].startswith('"""') and value[-1].endswith('"""')
+    return value[0].strip().startswith('"""') and value[-1].strip().endswith('"""')
 
 
 def coerce_single_line_str(value):
@@ -190,6 +189,21 @@ def coerce_multiline(value, coercers):
         return '\n'.join(value)
 
 
+def handle_custom_coercers(custom_coercers):
+    if not custom_coercers:
+        return
+    for name, _coercer in custom_coercers:
+        regex_str, converter = _coercer
+
+        if '(?P<value>' not in regex_str:
+            raise Exception('Custom matcher regular expressions must contain a named group `<value>`.')
+
+        if not callable(converter):
+            raise Exception("Custom converter's must be callable.")
+
+        yield name, (matcher(regex_str), converter)
+
+
 def coerce(config, **kwargs):
 
     simple_coercers = build_coercers()
@@ -200,6 +214,13 @@ def coerce(config, **kwargs):
 
     if kwargs.get('decimal', False) is True:
         simple_coercers.replace('float', coerce_decimal)
+
+    # add any custom coercers
+    for name, custom_coercer in handle_custom_coercers(kwargs.get('coercers')):
+        if name in simple_coercers:
+            simple_coercers.replace(name, custom_coercer)
+        else:
+            simple_coercers.prepend(name, custom_coercer)
 
     for cfg_obj in config.walk_values():
         if cfg_obj.multiline:
