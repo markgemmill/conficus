@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from os import path
 from os import environ
-from .parse import parse
-from .coerce import coerce
-from .inherit import inherit
+from .parse import parse as _parse
+from .coerce import coerce as _coerce
+from .inherit import inherit as _inherit
 from .readonly import ReadOnlyDict
 
 
@@ -30,14 +30,14 @@ def read_config(config_input):
     return config_input.split('\n')
 
 
-def load(config_path, inheritance=False, readonly=True, use_pathlib=False, use_decimal=False):
+def load(config_path, inheritance=False, readonly=True, use_pathlib=False, use_decimal=False, coercers=None):
 
-    config = parse(read_config(config_path))
+    config = _parse(read_config(config_path))
 
-    config = coerce(config, pathlib=use_pathlib, decimal=use_decimal)
+    config = _coerce(config, pathlib=use_pathlib, decimal=use_decimal, coercers=coercers)
 
     if inheritance is True:
-        config = inherit(config)
+        config = _inherit(config)
 
     if readonly is True:
         config = ReadOnlyDict(config)

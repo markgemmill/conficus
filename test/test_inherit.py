@@ -2,7 +2,7 @@ import conficus
 
 
 def test_inheritence(raw_cfg):
-    conficus.inherit(raw_cfg)
+    conficus._inherit(raw_cfg)
 
     assert raw_cfg['inherited.one'].value == '1'
     assert raw_cfg['inherited.two'].value == '2'

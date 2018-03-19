@@ -9,8 +9,8 @@ PATHS = {
     'config': Path(DOCS, 'config.txt'),
     'coerce': Path(DOCS, 'config_coerce.txt'),
     'multiline': Path(DOCS, 'config_multiline.txt'),
-    'toml': Path(DOCS, 'example-v0.4.0.toml'),
-    'wilderness': Path(DOCS, 'the_wild.txt')
+    'wilderness': Path(DOCS, 'the_wild.txt'),
+    'format': Path(DOCS, 'config_format.txt')
 }
 
 
@@ -22,17 +22,22 @@ def cfg_pth():
 @pytest.fixture
 def raw_cfg():
     lines = conficus.read_config(str(PATHS['config']))
-    return conficus.parse(lines)
+    return conficus._parse(lines)
 
 
 @pytest.fixture
 def coerce_cfg():
     lines = conficus.read_config(str(PATHS['coerce']))
-    return conficus.parse(lines)
+    return conficus._parse(lines)
 
 
 @pytest.fixture
 def multiline_cfg():
     lines = conficus.read_config(str(PATHS['multiline']))
-    return conficus.parse(lines)
+    return conficus._parse(lines)
 
+
+@pytest.fixture
+def format_cfg():
+    lines = conficus.read_config(str(PATHS['format']))
+    return conficus._parse(lines)
