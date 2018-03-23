@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import alabaster
 
-project = 'conficus'
+project = 'Conficus'
 copyright = '2018, Mark Gemmill'
 author = 'Mark Gemmill'
 
@@ -11,6 +11,10 @@ release = version
 
 # -- General configuration ---------------------------------------------------
 
+extensions = ['IPython.sphinxext.ipython_console_highlighting',
+              'IPython.sphinxext.ipython_directive']
+
+ipython_execlines = ['import conficus']
 
 templates_path = ['templates']
 source_suffix = '.rst'
@@ -19,14 +23,15 @@ language = None
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
 html_theme = 'alabaster'
-html_static_path = ['static']
+html_static_path = ['_static', '_static/css'] 
+fixed_sidebar = True
 
 html_theme_options = {
-    'extra_nav_links': {
-    }
+    'logo': 'conficus_2_a.svg',
+    'fixed_sidebar': True,
 }
 
-html_sidebars =  {
+html_sidebars = {
     '**': [
         'about.html',
         'navigation.html',

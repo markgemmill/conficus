@@ -11,6 +11,8 @@
 * test adding custom user coercions
 * clean up and unify test suite
     - we have multiple tests covering the same ground
+* provide alternative section markers apart from '.'.
+    - add an option to `load` to take '/' or '#'
 
 
 #### DONE

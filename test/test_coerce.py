@@ -135,14 +135,25 @@ def test_coerce_multiline(multiline_cfg):
     assert len(config['multiline.list-of-strings']) == 4
     assert config['multiline.list-of-strings'][0] == 'Wonder Woman'
 
+    assert isinstance(config['multiline.list-of-int'], list)
     assert len(config['multiline.list-of-int']) == 4
     assert isinstance(config['multiline.list-of-int'][0], int)
 
+    assert isinstance(config['multiline.list-of-float'], list)
     assert len(config['multiline.list-of-float']) == 4
     assert isinstance(config['multiline.list-of-float'][0], float)
 
+    assert isinstance(config['multiline.list-of-lists'], list)
     assert len(config['multiline.list-of-lists']) == 2
     assert isinstance(config['multiline.list-of-lists'][0], list)
+
+    assert isinstance(config['multiline.tuple-of-strings'], tuple)
+    assert len(config['multiline.tuple-of-strings']) == 4
+    assert config['multiline.tuple-of-strings'][0] == 'Wonder Woman'
+
+    assert isinstance(config['multiline.tuple-of-int'], tuple)
+    assert len(config['multiline.tuple-of-int']) == 4
+    assert isinstance(config['multiline.tuple-of-int'][0], int)
 
     assert len(config['multiline.text']) == 163
     assert isinstance(config['multiline.text'], str)

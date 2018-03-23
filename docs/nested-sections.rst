@@ -1,45 +1,40 @@
 Nested Sections
 ~~~~~~~~~~~~~~~
 
-``conficus`` has nested sections. Nested section are defined by section
-names containing dots ".". In the following example, ``email`` is the
-parent section and ``notify`` and ``errors`` are subsections:
+``conficus`` uses nested sections. Nested section are defined when section
+names contain dots ".".
 
-.. code:: python
 
-    >>> INI = '''
-    ... [email]
-    ... server = smtp.server.com
-    ... 
-    ... [email.notify]
-    ... to = notify@home.biz
-    ... subject = Notification from Ficus
-    ... 
-    ... [email.errors]
-    ... to = admin@home.biz
-    ... subject = Fatal Error Has Occurred'''
-    ... 
-    >>> cfg = ficus.load(INI)
-    >>> 
+Here we have an ``email`` section that has two child sections ``notify`` and ``errors``.
+
+.. include:: docs-sample.ini
+    :code: ini
+    :start-after: # nested-sections-sample
+    :end-before: # nested-sections-end
+
+Let's load our example file :doc:`sample-doc.ini </sample-doc>`.
+
+.. ipython:: python
+    :okexcept:
+    :okwarning:
+
+    cfg = conficus.load('docs/docs-sample.ini')
 
 The resulting configuration object is a dictionary, so these nested
 sections can be accessed as such:
 
-.. code:: python
+.. ipython:: python
+    :okexcept:
+    :okwarning:
 
-    >>> cfg['email']['server']
-    'smtp.server.com'
-    >>> 
-    >>> cfg['email']['notify']['to']
-    'notify@home.biz'
-    >>> 
+    cfg['email']['server']
+    cfg['email']['notify']['to']
+
 
 However, you can also access the section by its full name:
 
-.. code:: python
+.. ipython:: python
+    :okexcept:
+    :okwarning:
 
-    >>> cfg['email.notify.to']
-    'notify@home.biz'
-    >>> 
-
-
+    cfg['email.notify.to']
