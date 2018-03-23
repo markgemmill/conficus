@@ -1,16 +1,19 @@
 Release History
 ---------------
 
-v0.4.0 (2018-03-16
-^^^^^^^^^^^^^^^^^^
+v0.4.0 (2018-03-16)
+^^^^^^^^^^^^^^^^^^^
 
-- 
+- New feature allowing user to include customer coercers.
+- Configuration object now returns a readable string
+  format. Any named password values are obscured.
+- Switched documentation from Mkdocs to Sphinx
 
 v0.3.1 (2018-03-08)
 ^^^^^^^^^^^^^^^^^^^
 
 - Fixed bug with multiline string containing "=" sign.
-  Enforcing a maximum of 2 blank spaces prior to an 
+  Enforcing a maximum of 2 blank spaces prior to an
   option declaration. Anything 3 or more is considered and
   indented continuation of the previous line.
 
@@ -19,7 +22,7 @@ v0.3.0 (2018-02-16)
 ^^^^^^^^^^^^^^^^^^^
 
 - added option for coercing path strings into pathlib Path objects.
-- added option for coercing decimal numbers as Decimal objects, 
+- added option for coercing decimal numbers as Decimal objects,
   instead of floats.
 - updated code file/object naming and dropped use of `ficus`
 
@@ -32,14 +35,14 @@ v0.2.4 (2018-01-16)
 -  empty keys now return ``None``. This:
 
    .. code:: ini
-        
+
        [section]
        value =
 
    will now produce this:
 
    .. code:: python
-        
+
         assert config['section.value'] == None
 
 

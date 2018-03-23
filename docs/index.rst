@@ -1,9 +1,11 @@
 .. include:: ../README.rst
 
+Topics
+^^^^^^
+
 .. toctree::
    :maxdepth: 1
 
-   index
    coercion
    nested-sections
    inheritance

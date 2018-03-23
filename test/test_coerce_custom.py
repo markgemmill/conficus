@@ -11,12 +11,6 @@ else:
     from pathlib import Path  # noqa
 
 
-#  def test_handle_custom_coercers(capsys):
-#      coercers = coerce.handle_custom_coercers([('int', ('^\d+$', str))])
-#      for c in coercers:
-#          assert c == ''
-
-
 def test_handle_custom_coercers_with_regex_error(capsys):
     with pytest.raises(Exception) as ex:
         [c for c in coerce.handle_custom_coercers([('int', ('^\d+$', str))])]
@@ -43,3 +37,7 @@ def test_coerce_custom_additional():
     assert config['integer'] == 5
     config = conficus.load('integer = 5', coercers=[('myint', ('^(?P<value>\d+)$', str))])
     assert config['integer'] == '5'
+
+
+def test_coerce_custom_additional_2():
+    pass
