@@ -35,12 +35,12 @@ def coerce_path():
     def _coerce_path(value):
         return Path(value)
 
-    if sys.version_info.major >= 3 and sys.version_info.minor >= 4:
-        from pathlib import Path
+    if sys.version_info.major >= 3 and sys.version_info.minor >= 4:  # pragma: no cover
+        from pathlib import Path   # pylint: disable=import-error
         return _coerce_path
     else:  # pragma: no cover
         try:
-            from pathlib2 import Path
+            from pathlib2 import Path   # pylint: disable=import-error
             return _coerce_path
         except Exception:
             raise Exception('pathlib module is unavailable on your system.')
@@ -229,7 +229,7 @@ def handle_custom_coercers(custom_coercers):
         yield name, (matcher(regex_str), converter)
 
 
-def coerce(config, **kwargs):
+def coerce(config, **kwargs):  # pragma pylint: disable=redefined-builtin
 
     simple_coercers = build_coercers()
 

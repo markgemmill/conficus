@@ -1,7 +1,4 @@
 import conficus
-from conficus.parse import ConfigDict
-from conficus.parse import ConfigValue
-from conficus.parse import parse
 
 
 def test_config_format(format_cfg):

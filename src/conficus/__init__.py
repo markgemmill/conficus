@@ -30,16 +30,21 @@ def read_config(config_input):
     return config_input.split('\n')
 
 
-def load(config_path, inheritance=False, readonly=True, use_pathlib=False, use_decimal=False, coercers=None):
+def load(config_path, **kwargs):
+    #  inheritance=False, readonly=True, use_pathlib=False, use_decimal=False, coercers=None):
 
     config = _parse(read_config(config_path))
 
+    use_pathlib = kwargs.get('use_pathlib', False)
+    use_decimal = kwargs.get('use_decimal', False)
+    coercers = kwargs.get('coercers')
+
     config = _coerce(config, pathlib=use_pathlib, decimal=use_decimal, coercers=coercers)
 
-    if inheritance is True:
+    if kwargs.get('inheritance', False) is True:
         config = _inherit(config)
 
-    if readonly is True:
+    if kwargs.get('readonly', True) is True:
         config = ReadOnlyDict(config)
 
     return config

@@ -3,7 +3,7 @@ from conficus.parse import ConfigDict
 from conficus.readonly import ReadOnlyDict
 
 
-def test_readonly_dict(): 
+def test_readonly_dict():
     d = ConfigDict()
     d['one'] = ConfigDict()
     d['one']['name'] = 'one'
