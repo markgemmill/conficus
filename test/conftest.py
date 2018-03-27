@@ -1,7 +1,11 @@
-from pathlib import Path
+import sys
 import pytest
 import conficus
 
+if sys.version.startswith('3'):
+    from pathlib import Path
+else:
+    from pathlib2 import Path
 
 CWD = Path().resolve()
 DOCS = Path(CWD, 'test', 'samples')
@@ -10,6 +14,7 @@ PATHS = {
     'coerce': Path(DOCS, 'config_coerce.txt'),
     'multiline': Path(DOCS, 'config_multiline.txt'),
     'wilderness': Path(DOCS, 'the_wild.txt'),
+    'sample': Path(DOCS, 'docs-sample.ini'),
     'format': Path(DOCS, 'config_format.txt')
 }
 

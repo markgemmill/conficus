@@ -7,7 +7,7 @@ names contain dots ".".
 
 Here we have an ``email`` section that has two child sections ``notify`` and ``errors``.
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # nested-sections-sample
     :end-before: # nested-sections-end
@@ -18,7 +18,7 @@ Let's load our example file :doc:`sample-doc.ini </sample-doc>`.
     :okexcept:
     :okwarning:
 
-    cfg = conficus.load('docs/docs-sample.ini')
+    cfg = conficus.load('test/samples/docs-sample.ini')
 
 The resulting configuration object is a dictionary, so these nested
 sections can be accessed as such:

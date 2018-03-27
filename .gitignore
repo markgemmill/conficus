@@ -19,3 +19,10 @@ lastfailed
 docs/_build
 image001.jpg@01D3B6FD.122F57B0
 dover-requirements.txt
+ipython-output.ipy
+ipython-output.py
+.pytest_cache
+johnny-automatic-scroll-2.svg
+workbench/*.svg
+conficus_1_a.idraw
+Scroll5.png

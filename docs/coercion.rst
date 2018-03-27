@@ -3,7 +3,7 @@ Coercion
 
 ``conficus`` will automatically coerce basic types such integers, booleans and dates. Flat lists of basic types will also be converted automatically.
 
-In the examples below we use :doc:`sample-doc.ini </sample-doc>`.
+In the examples below we use :doc:`sample-doc.ini <sample-doc>`.
 
 
 .. ipython:: python
@@ -16,7 +16,7 @@ In the examples below we use :doc:`sample-doc.ini </sample-doc>`.
     print('CWD: {}'.format(pth))
 
 
-    .. include:: docs-sample.ini
+    .. include:: ../test/samples/docs-sample.ini
         :code: text
 
 
@@ -25,7 +25,7 @@ In the examples below we use :doc:`sample-doc.ini </sample-doc>`.
     :okwarning:
 
     import conficus
-    cfg = conficus.load('docs/docs-sample.ini')
+    cfg = conficus.load('test/samples/docs-sample.ini')
 
 
 Integers
@@ -33,7 +33,7 @@ Integers
 
 Numbers represented with no decimal will convert to integers:
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-integer
     :end-before: # coerce-float
@@ -49,7 +49,7 @@ Floats
 
 Numbers with decimals will convter to floats:
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-float
     :end-before:  # coerce-boolean
@@ -60,28 +60,13 @@ Numbers with decimals will convter to floats:
 
     cfg['float']
 
-Decimals
-^^^^^^^^
-
-Alternatively, if the `use_decimal=True` option is passed to 
-the `load` function, decimal numbers will be converted to
-python `Decimal` type instead of `float`:
-
-
-.. ipython:: python
-    :okexcept:
-    :okwarning:
-
-    cfg = conficus.load('docs/docs-sample.ini', use_decimal=True)
-    cfg['float']
-
 
 Booleans
 ^^^^^^^^
 
 True/False values will convert to `boolean`:
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-boolean
     :end-before: # coerce-dates
@@ -90,15 +75,20 @@ True/False values will convert to `boolean`:
     :okexcept:
     :okwarning:
 
+    cfg['boolean-yes']
+
+    cfg['boolean-no']
+
     cfg['boolean-true']
 
     cfg['boolean-false']
+
 
 Dates and Times
 ^^^^^^^^^^^^^^^
 
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-dates
     :end-before: # coerce-list-1
@@ -145,7 +135,7 @@ Lists
 Any value that begins and ends with "[" and "]" will be viewed as a list
 whose content will be split on "commas":
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-list-1
     :end-before: # coerce-list-2
@@ -160,7 +150,7 @@ whose content will be split on "commas":
 Any multiline value that ends and begins with "[" and "]" will be viewed
 as a list whose contents will be split on the new line:
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-list-2
     :end-before: # coerce-list-3
@@ -173,7 +163,7 @@ as a list whose contents will be split on the new line:
 
 Commas are optional, but if used they are striped:
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-list-3
     :end-before: # coerce-list-4
@@ -187,10 +177,10 @@ Commas are optional, but if used they are striped:
 Tuples
 ^^^^^^
 
-Values that begin  with ``(`` and end with ``)`` are converted 
+Values that begin  with ``(`` and end with ``)`` are converted
 to a `tuple` in the same way as a `list` above.
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-tuple-1
     :end-before: # coerce-tuple-2
@@ -202,7 +192,7 @@ to a `tuple` in the same way as a `list` above.
     cfg['single-line-tuple']
 
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-tuple-2
     :end-before: # coerce-tuple-end
@@ -218,7 +208,7 @@ Strings
 
 Anything that does not fall into the above types is considered a string:
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-string-1
     :end-before: # coerce-string-2
@@ -233,7 +223,7 @@ Anything that does not fall into the above types is considered a string:
 Strings can span multiple lines, but must be indented at least 3 or
 more spaces. Indented white space and new lines are not preserved:
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-string-2
     :end-before: # coerce-string-3
@@ -248,7 +238,7 @@ more spaces. Indented white space and new lines are not preserved:
 
 To preserve new lines, use the back slash (\\) to designate the right edge:
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-string-3
     :end-before: # coerce-string-4
@@ -263,7 +253,7 @@ To preserve new lines, use the back slash (\\) to designate the right edge:
 To preserve white space to the left, pipe (|) character can be used to
 designate the left edge:
 
-.. include:: docs-sample.ini
+.. include:: ../test/samples/docs-sample.ini
     :code: ini
     :start-after: # coerce-string-4
     :end-before: # coerce-string-end
@@ -273,3 +263,52 @@ designate the left edge:
     :okwarning:
 
     cfg['string-multiline-preserve-space']
+
+
+
+Optional Conversions
+^^^^^^^^^^^^^^^^^^^^
+
+Decimals
+--------
+
+If the `use_decimal=True` option is passed to
+the `load` function, decimal numbers will be converted to
+python `Decimal` type instead of `float`:
+
+
+.. include:: ../test/samples/docs-sample.ini
+    :code: ini
+    :start-after: # coerce-float
+    :end-before:  # coerce-boolean
+
+
+.. ipython:: python
+    :okexcept:
+    :okwarning:
+
+    cfg = conficus.load('test/samples/docs-sample.ini', use_decimal=True)
+    cfg['float']
+
+
+Paths
+-----
+
+If the ``use_pathlib=True`` option is pass to the ``load`` function,
+file and directory paths will be converted to ``pathlib`` Path
+objects.
+
+
+.. include:: ../test/samples/docs-sample.ini
+    :code: ini
+    :start-after: # coerce-paths
+    :end-before:  # coerce-paths-end
+
+
+.. ipython:: python
+    :okexcept:
+    :okwarning:
+
+    cfg = conficus.load('test/samples/docs-sample.ini', use_pathlib=True)
+    cfg['unix-file-path']
+    cfg['windows-file-path']
