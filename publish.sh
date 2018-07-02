@@ -27,13 +27,13 @@ echo "PUBLISHING CONFICUS v${VERSION}"
 echo "##############################"
 
 # get rid of the original
-rm README.rst
-rm HISTORY.md
+# rm README.rst
+# rm HISTORY.md
 
 # create README.rst for docs/index.md
-pandoc --from=markdown --to=rst --output=README.rst docs/docs/index.md
+# pandoc --from=markdown --to=rst --output=README.rst docs/docs/index.md
 # copy release-history.md from docs/release-history.md
-cp docs/docs/release-history.md HISTORY.md
+# cp docs/docs/release-history.md HISTORY.md
 
 # at this point, we should run `python setup.py check -r -s` to 
 # be sure we have the proper formatting.
@@ -60,19 +60,19 @@ twine upload --config-file setup.cfg dist/conficus-${VERSION}-py2.py3-none-any.w
 #
 # generate documentation
 #
-echo "##################################"
-echo "UPDATING CONFICUS ${VERSION} DOCUMENTATION...."
-echo "##################################"
-cd docs
-rmdir -rf ./site
-mkdir site
-
-mkdocs build
-
-echo "#######################################"
-echo "SYNCING CONFICUS ${VERSION} WEBSITE...."
-echo "#######################################"
-rsync -r --delete ./site/ aedilis@web591.webfaction.com:webapps/thebitsilo_www/dev/conficus/current/
-
-# return to starting directory
-cd ..
+# echo "##################################"
+# echo "UPDATING CONFICUS ${VERSION} DOCUMENTATION...."
+# echo "##################################"
+# cd docs
+# rmdir -rf ./site
+# mkdir site
+# 
+# mkdocs build
+# 
+# echo "#######################################"
+# echo "SYNCING CONFICUS ${VERSION} WEBSITE...."
+# echo "#######################################"
+# rsync -r --delete ./site/ aedilis@web591.webfaction.com:webapps/thebitsilo_www/dev/conficus/current/
+# 
+# # return to starting directory
+# cd ..
