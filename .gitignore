@@ -10,9 +10,10 @@ dist
 docs/0.2.0
 docs/site
 docs/site/*
-ficus.egg-info/
+conficus.egg-info/
 session.txt
 site/
+src/conficus.egg-info
 src/conficus.egg-info/*
 .tox
 lastfailed
