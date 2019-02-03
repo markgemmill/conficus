@@ -59,6 +59,10 @@ class ConfigDict(OrderedDict):
 
         return _values
 
+    def copy(self):
+        'od.copy() -> a shallow copy of od'
+        return self.__class__(self)
+
     def __str__(self):
         return formatter(self)
 

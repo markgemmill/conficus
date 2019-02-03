@@ -73,7 +73,7 @@ def coerce_single_line(value, coercers):
 def match_iterable(start_bracket, end_bracket):
 
     def _match_iterable(value):
-        return value.startswith(start_bracket) and value.endswith(end_bracket)
+        return value.strip().startswith(start_bracket) and value.strip().endswith(end_bracket)
 
     return _match_iterable
 

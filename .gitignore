@@ -4,6 +4,9 @@
 .flake8.log
 .hgignore
 .DS_Store
+.idea
+.idea/*
+.tox
 __pycache__
 build
 dist
@@ -15,7 +18,6 @@ session.txt
 site/
 src/conficus.egg-info
 src/conficus.egg-info/*
-.tox
 lastfailed
 docs/_build
 image001.jpg@01D3B6FD.122F57B0

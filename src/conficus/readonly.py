@@ -26,3 +26,13 @@ class ReadOnlyDict(ConfigDict):
 
     def popitem(self):
         raise TypeError
+
+    def __copy__(self):
+        '''We can only create a new ReadOnlyDict
+        via initialization, so to make a copy we
+        need to revert to ConfigDict and then
+        create a new ReadOnlyDict from it.
+
+        '''
+        new_copy = ConfigDict(self)
+        return ReadOnlyDict(new_copy)

@@ -1,6 +1,13 @@
 Release History
 ---------------
 
+v0.4.1 (2019-02-03)
+^^^^^^^^^^^^^^^^^^^
+
+- fixed bug parsing single line sequences.
+- fixed bug copying ReadOnlyDict.
+
+
 v0.4.0 (2018-03-16)
 ^^^^^^^^^^^^^^^^^^^
 
@@ -8,6 +15,7 @@ v0.4.0 (2018-03-16)
 - Configuration object now returns a readable string
   format. Any named password values are obscured.
 - Switched documentation from Mkdocs to Sphinx
+
 
 v0.3.1 (2018-03-08)
 ^^^^^^^^^^^^^^^^^^^
