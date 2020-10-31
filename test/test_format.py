@@ -1,8 +1,9 @@
 import conficus
+from conficus.coerce import coerce as _coerce
 
 
 def test_config_format(format_cfg):
-    config = conficus._coerce(format_cfg)
+    config = _coerce(format_cfg)
     assert str(config) == '''[config] debug: True
 [config] password: **********
 [config] numbers.integer.value: 1

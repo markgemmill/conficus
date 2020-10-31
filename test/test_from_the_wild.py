@@ -1,10 +1,11 @@
 import conficus
+from conficus.parse import parse as _parse
 
 
 def test_wild_multiline_sql(cfg_pth):
 
     lines = conficus.read_config(str(cfg_pth['wilderness']))
-    config = conficus._parse(lines)
+    config = _parse(lines)
 
     value = config['config.sequence_po_sql']
 

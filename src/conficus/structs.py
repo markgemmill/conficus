@@ -17,6 +17,9 @@ class ConfigDict(OrderedDict):
         config['parent.child']
 
     '''
+    # def __init__(self, *args, **kwargs):
+        # super().__init__(*args, **kwargs)
+
     def get(self, key, default=None):
         try:
             return self[key]
@@ -31,6 +34,11 @@ class ConfigDict(OrderedDict):
         for seg in segments:
             end = super(ConfigDict, end).__getitem__(seg)
         return end
+
+    def __setitem__(self, key, value):
+        if isinstance(value, dict) and not isinstance(value, ConfigDict):
+            value = ConfigDict(value)
+        super().__setitem__(key, value)
 
     def __contains__(self, key):
         if '.' not in key:
@@ -59,6 +67,15 @@ class ConfigDict(OrderedDict):
 
         return _values
 
+    def walk(self):
+        def _recurse(section):
+            for key, value in section.items():
+                if isinstance(value, ConfigDict):
+                    yield from _recurse(value)
+                else:
+                    yield section, key, value
+        yield from _recurse(self)
+
     def copy(self):
         'od.copy() -> a shallow copy of od'
         return self.__class__(self)
@@ -84,7 +101,6 @@ class ConfigValue(object):
     def value(self):
         if self.multiline:
             return '\n'.join(self.raw_value)
-        # if self.raw_value:
         return str(self.raw_value[0])
 
     def __deepcopy__(self, memo):
@@ -102,15 +118,25 @@ class ListNode(object):
     def __repr__(self):
         return '<ListNode "{}">'.format(self.name)
 
+    def get_tail(self):
+        node = self
+        while node.next:
+            node = node.next
+        return node
+
+    def get_root(self):
+        node = self
+        while node.previous:
+            node = node.previous
+        return node
+
     @property
     def is_root(self):
-        return self.previous is None \
-            and self.next is not None
+        return self.previous is None and self.next is not None 
 
     @property
     def is_tail(self):
-        return self.next is None \
-            and self.previous is not None
+        return self.next is None and self.previous is not None
 
     @property
     def unlinked(self):
@@ -160,67 +186,76 @@ class DoubleLinkedDict(object):
     def __init__(self, *args):
         self.current = None
         self.root = None
-        self.tail = None
-        self._dict = {}
+        self._tail = None
         for name, content in args:
             self.append(name, content)
 
+    @property
+    def tail(self):
+        if self.root:
+            return self.root.get_tail()
+
+    # @tail.setter
+    # def tail(self, value):
+        # self._tail = value
+
     def __len__(self):
-        return len(self._dict)
+        count = 0
+        for node in self:
+            count += 1
+        return count
 
     def __getitem__(self, index):
-        return self._dict[index]
+        for node in self:
+            if node.name == index:
+                return node
 
     def __setitem__(self, name, value):
         self.append(name, value)
 
     def __contains__(self, name):
-        return name in self._dict
+        for node in self:
+            if node.name == name:
+                return True
+        return False
 
     def replace(self, node_name, content):
-        node = ListNode(node_name, content)
-        self._dict[node_name].replace(node)
+        if node_name not in self:
+            raise Exception(f"List does not contain '{node_name}'.")
+        node = self[node_name]
+        node.content = content
 
     def append(self, name, content):
         node = ListNode(name, content)
-        self._dict[name] = node
-        if self.tail:
-            self.tail.append(node)
-        else:
+        
+        if not self.root:
             self.root = node
-        self.tail = node
+        else:
+            self.root.get_tail().append(node)
 
     def prepend(self, name, content):
         node = ListNode(name, content)
-        self._dict[name] = node
         if self.root:
             self.root.prepend(node)
-        else:
-            self.tail = node
         self.root = node
 
     def insert_before(self, node_name, name, content):
-        node = self._dict[node_name]
+        node = self[node_name]
         new_node = ListNode(name, content)
-        self._dict[name] = new_node
         node.prepend(new_node)
         if self.root is node:
             self.root = new_node
 
     def insert_after(self, node_name, name, content):
-        node = self._dict[node_name]
+        node = self[node_name]
         new_node = ListNode(name, content)
-        self._dict[name] = new_node
         node.append(new_node)
-        if self.tail is node:
-            self.tail = new_node
 
     def __iter__(self):
         node = self.root
-        yield node
-        while not node.is_tail:
-            node = node.next
+        while node:
             yield node
+            node = node.next
 
     def iter_names(self):
         for node in self:

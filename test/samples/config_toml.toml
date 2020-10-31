@@ -1,0 +1,32 @@
+integer = 102
+float = 10.12
+decimal = "10.12"
+boolean = true
+date = 2017-10-12
+time = 10:12:09
+date-and-time = 2017-10-12T10:12:09
+list = [
+    "Herb",
+    "Mary",
+    "John",
+    "Sarah"
+    ]
+string = "A wealthy gentleman waved his umbrella."
+# coerce-paths
+unix-file-path = "/Users/mgemmill/.vimrc"
+windows-file-path = 'C:\Users\mgemmill\_vimrc'
+
+# nested-sections-sample
+[email]
+server = "smtp.server.com"
+
+[email.notify]
+to = "notify@home.biz"
+subject = "Notification from Ficus"
+
+[email.errors]
+to = "admin@home.biz"
+subject = "Fatal Error Has Occurred"
+
+[app]
+debug = true 

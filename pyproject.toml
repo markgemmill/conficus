@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "conficus"
+version = "0.4.1"
+description = "python INI configuration library"
+authors = ["Mark Gemmill <gitlab@markgemmill.com>"]
+license = "MIT License"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+tomlkit = "^0.7.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.1.2"
+coverage = "^5.3"
+pytest-cov = "^2.10.1"
+flake8 = "^3.8.4"
+flakehell = "^0.7.0"
+pylint = "^2.6.0"
+black = "^20.8b1"
+mkdocs = "^1.1.2"
+tox = "^3.20.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.dover]
+versioned_files = ["pyproject.toml"]
+
+[tool.black]
+verbose = true
+
+[tool.flakehell]
+format = "grouped"
+
+[tool.flakhell.plugins]
+pycodestyle = ["+*"]
+pyflakes = ["+*"]
+
+
+[tool.coverage.run]
+source = "conficus"
+omit = "*/format.py"
+
+[tool.coverage.paths]
+show_missing = true
+source = [ 
+	"src/conficus",
+	".tox/*/lib/python*/site-packages/attr",
+	".tox/pypy*/site-packages/attr"
+]
+
+[tool.pytest]
+addopts = "-vv --strict --cov=conficus --cov-report=term-missing"

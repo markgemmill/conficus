@@ -93,6 +93,14 @@ def test_list_node_list(node_list):
     assert node2.is_tail is False
     assert node3.is_tail
 
+    assert node.get_tail() is node3
+    assert node2.get_tail() is node3
+    assert node3.get_tail() is node3
+
+    assert node.get_root() is node
+    assert node2.get_root() is node
+    assert node3.get_root() is node
+
 
 def test_list_node_remove_root(node_list):
     node, node2, node3 = node_list
@@ -134,6 +142,15 @@ def dld():
 def test_double_linked_dict():
     dld = DoubleLinkedDict()
     assert len(dld) == 0
+
+
+def test_double_linked_dict_append_to_empty():
+    dld = DoubleLinkedDict()
+    for node in dld:
+        assert False
+    
+    dld.append("new", "value")
+    assert len(dld) == 1
 
 
 def test_double_linked_dict_init(dld):
@@ -210,6 +227,9 @@ def test_double_linked_dict_replace(dld):
 
     assert dld['second'].content == 500
     assert dld['second'] is node
+
+    with pytest.raises(Exception):
+        dld.replace('nonexistantname', 600)
 
 
 def test_double_linked_dict_iter_names(dld):

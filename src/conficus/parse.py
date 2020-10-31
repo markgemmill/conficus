@@ -16,6 +16,8 @@ def matcher(regex):
 
     # pylint: disable=inconsistent-return-statements
     def _matcher(line):
+        if not isinstance(line, str):
+            return
         m = rx.match(line)
         if m:
             return m.groupdict()

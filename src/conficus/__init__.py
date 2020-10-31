@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from os import path
 from os import environ
-from .parse import parse as _parse
-from .coerce import coerce as _coerce
+from pathlib import Path
+from . import parse
+from . import coerce
 from .inherit import inherit as _inherit
 from .readonly import ReadOnlyDict
 
@@ -20,6 +21,9 @@ def read_config(config_input):
     def _readlines(pth):
         with open(pth, 'r') as fh_:
             return fh_.read()
+    
+    if isinstance(config_input, Path):
+        return config_input.read_text().split('\n')
 
     if path.exists(config_input):
         config_input = _readlines(config_input)
@@ -33,12 +37,21 @@ def read_config(config_input):
 def load(config_path, **kwargs):
     #  inheritance=False, readonly=True, use_pathlib=False, use_decimal=False, coercers=None):
 
-    config = _parse(read_config(config_path))
-
-    use_pathlib = kwargs.get('use_pathlib', False)
-    use_decimal = kwargs.get('use_decimal', False)
+    use_pathlib = kwargs.get('use_pathlib', False) or kwargs.get('pathlib', False)
+    use_decimal = kwargs.get('use_decimal', False) or kwargs.get('decimal', False)
+    use_toml = kwargs.get('use_toml', False) or kwargs.get('toml', False)
     coercers = kwargs.get('coercers')
 
+
+    _parse = parse.parse
+    _coerce = coerce.coerce
+
+    if use_toml is True:
+        from . import toml
+        _parse = toml.parse
+        _coerce = toml.coerce
+
+    config = _parse(read_config(config_path))
     config = _coerce(config, pathlib=use_pathlib, decimal=use_decimal, coercers=coercers)
 
     if kwargs.get('inheritance', False) is True:

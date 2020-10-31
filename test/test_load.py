@@ -1,6 +1,8 @@
+import pytest
 import conficus
 
-CONFIG = '''
+CONFIG = {
+        "": '''
 [app]
 debug = True
 
@@ -13,12 +15,29 @@ password = smtp-password
 to = [admin@email.com]
 cc = []
 
+''',
+
+    "toml": '''
+[app]
+debug = true
+
+[email]
+server = "smtp.email.com"
+user = "smtp-admin"
+password = "smtp-password"
+
+[email.errors]
+to = ["admin@email.com"]
+cc = []
+
 '''
+}
 
 
-def test_load_defaults():
-
-    config = conficus.load(CONFIG)
+@pytest.mark.parametrize("toml,cfg", [(False, ""), (True, "toml")])
+def test_load_defaults(toml, cfg):
+    print(toml, cfg)
+    config = conficus.load(CONFIG[cfg], toml=toml)
 
     # sanity check
     assert config['app.debug'] is True
@@ -45,9 +64,10 @@ def test_read_config(cfg_pth):
     assert config_from_env_var == config_from_string
 
 
-def test_load_with_inheritence():
+@pytest.mark.parametrize("toml,cfg", [(False,""), (True, "toml")])
+def test_load_with_inheritence(toml, cfg):
 
-    config = conficus.load(CONFIG, inheritance=True)
+    config = conficus.load(CONFIG[cfg], inheritance=True, toml=toml)
 
     # sanity check
     assert config['app.debug'] is True
@@ -59,9 +79,13 @@ def test_load_with_inheritence():
     assert config.readonly is True
 
 
-def test_load_with_non_readonly():
+@pytest.mark.parametrize("toml,cfg", [(False,""), (True, "toml")])
+def test_load_with_non_readonly(toml, cfg):
 
-    config = conficus.load(CONFIG, inheritance=True, readonly=False)
+    print(toml, cfg)
+    print(CONFIG[cfg])
+
+    config = conficus.load(CONFIG[cfg], inheritance=True, readonly=False, toml=toml)
 
     # sanity check
     assert config['app.debug'] is True
