@@ -1,6 +1,14 @@
 Release History
 ---------------
 
+v0.5.0 (2020-10-31)
+^^^^^^^^^^^^^^^^^^^
+
+- drop support for python 2
+- drop support for python 3.4
+- add option for parsing toml files 
+
+
 v0.4.1 (2019-02-03)
 ^^^^^^^^^^^^^^^^^^^
 

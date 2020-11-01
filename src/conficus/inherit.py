@@ -2,7 +2,7 @@ from .parse import ConfigDict
 
 
 def inherit(config):  # noqa C901
-    '''
+    """
     ficus.inherit pushes the configuration values of
     parent section down to its child sections.
 
@@ -24,7 +24,8 @@ def inherit(config):  # noqa C901
     subject=[Alert] Error
     body=error_template.txt
 
-    '''
+    """
+
     def _inherit(inheritable_options, section):
         # first inherit any options
         # that do not exist

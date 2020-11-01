@@ -3,7 +3,7 @@ from .format import formatter
 
 
 class ConfigDict(OrderedDict):
-    '''
+    """
     ConfigDict is an override of standard dictionary
     to allow dot-named access to nested dictionary
     values.
@@ -16,9 +16,10 @@ class ConfigDict(OrderedDict):
 
         config['parent.child']
 
-    '''
+    """
+
     # def __init__(self, *args, **kwargs):
-        # super().__init__(*args, **kwargs)
+    # super().__init__(*args, **kwargs)
 
     def get(self, key, default=None):
         try:
@@ -27,9 +28,9 @@ class ConfigDict(OrderedDict):
             return default
 
     def __getitem__(self, key):
-        if '.' not in key:
-            return super(ConfigDict, self).__getitem__(key)
-        segments = key.split('.')
+        if "." not in key:
+            return super().__getitem__(key)
+        segments = key.split(".")
         end = self
         for seg in segments:
             end = super(ConfigDict, end).__getitem__(seg)
@@ -41,9 +42,9 @@ class ConfigDict(OrderedDict):
         super().__setitem__(key, value)
 
     def __contains__(self, key):
-        if '.' not in key:
-            return super(ConfigDict, self).__contains__(key)
-        segments = key.split('.')
+        if "." not in key:
+            return super().__contains__(key)
+        segments = key.split(".")
         end = self
         contains = False
         for seg in segments:
@@ -74,18 +75,18 @@ class ConfigDict(OrderedDict):
                     yield from _recurse(value)
                 else:
                     yield section, key, value
+
         yield from _recurse(self)
 
     def copy(self):
-        'od.copy() -> a shallow copy of od'
+        "od.copy() -> a shallow copy of od"
         return self.__class__(self)
 
     def __str__(self):
         return formatter(self)
 
 
-class ConfigValue(object):
-
+class ConfigValue:
     def __init__(self, initial_value):
         self.raw_value = [initial_value]
         self.end_value = None
@@ -100,14 +101,15 @@ class ConfigValue(object):
     @property
     def value(self):
         if self.multiline:
-            return '\n'.join(self.raw_value)
+            return "\n".join(self.raw_value)
         return str(self.raw_value[0])
 
     def __deepcopy__(self, memo):
         return self.end_value
 
 
-class ListNode(object):
+class ListNode:
+    """Double Linked List Node"""
 
     def __init__(self, name, content):
         self.name = name
@@ -132,7 +134,7 @@ class ListNode(object):
 
     @property
     def is_root(self):
-        return self.previous is None and self.next is not None 
+        return self.previous is None and self.next is not None
 
     @property
     def is_tail(self):
@@ -177,11 +179,14 @@ class ListNode(object):
         self.next = None
 
     def __eq__(self, node):
-        return self.name == node.name \
-            and self.content == node.content
+        return self.name == node.name and self.content == node.content
 
 
-class DoubleLinkedDict(object):
+class DoubleLinkedDict:
+    """
+    Double Linked List
+
+    """
 
     def __init__(self, *args):
         self.current = None
@@ -194,14 +199,11 @@ class DoubleLinkedDict(object):
     def tail(self):
         if self.root:
             return self.root.get_tail()
-
-    # @tail.setter
-    # def tail(self, value):
-        # self._tail = value
+        return None
 
     def __len__(self):
         count = 0
-        for node in self:
+        for node in self:  # noqa
             count += 1
         return count
 
@@ -209,6 +211,7 @@ class DoubleLinkedDict(object):
         for node in self:
             if node.name == index:
                 return node
+        return None
 
     def __setitem__(self, name, value):
         self.append(name, value)
@@ -227,7 +230,7 @@ class DoubleLinkedDict(object):
 
     def append(self, name, content):
         node = ListNode(name, content)
-        
+
         if not self.root:
             self.root = node
         else:

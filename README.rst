@@ -1,4 +1,4 @@
-Conficus v0.4.1 
+Conficus v0.5.0 
 ===================
 
 Python INI Configuration
@@ -7,10 +7,14 @@ Python INI Configuration
 
 |version-badge| |coverage-badge|
 
-``conficus`` is a python ini configuration utility. It reads ini-based
+``conficus`` is a python ini configuration utility. It reads ini and toml based
 configuration files into a python dict. ``conficus`` provides automatic
 coercing of values (e.g. str -> int), nested sections, easy access and
 section inheritance.
+
+v0.5.0 drops support for all python versions less that 3.6. The next minor version
+will also drop it's custom ini support solely for toml format.
+
 
 Installation
 ~~~~~~~~~~~~
@@ -58,5 +62,5 @@ Or from path stored in an environment variable:
     >>> print config['app.debug']
     True
 
-.. |version-badge| image:: https://img.shields.io/badge/version-v0.4.1-green.svg
+.. |version-badge| image:: https://img.shields.io/badge/version-v0.5.0-green.svg
 .. |coverage-badge| image:: https://img.shields.io/badge/coverage-100%25-green.svg

@@ -3,17 +3,16 @@ from .parse import ConfigDict
 
 
 class ReadOnlyDict(ConfigDict):
-
     def __init__(self, src):
-        super(ReadOnlyDict, self).__init__(src)
+        super().__init__(src)
         self.readonly = True
 
     def __setitem__(self, key, item):
-        if hasattr(self, 'readonly'):
-            raise TypeError('Key `{}` is read only!'.format(key))
+        if hasattr(self, "readonly"):
+            raise TypeError("Key `{}` is read only!".format(key))
         if isinstance(item, ConfigDict):
             item = ReadOnlyDict(item)
-        return super(ReadOnlyDict, self).__setitem__(key, item)
+        return super().__setitem__(key, item)
 
     def __delitem__(self, key):
         raise TypeError
@@ -28,11 +27,11 @@ class ReadOnlyDict(ConfigDict):
         raise TypeError
 
     def __copy__(self):
-        '''We can only create a new ReadOnlyDict
+        """We can only create a new ReadOnlyDict
         via initialization, so to make a copy we
         need to revert to ConfigDict and then
         create a new ReadOnlyDict from it.
 
-        '''
+        """
         new_copy = ConfigDict(self)
         return ReadOnlyDict(new_copy)

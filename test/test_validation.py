@@ -1,6 +1,6 @@
-import conficus
 from copy import copy
 from datetime import datetime
+import conficus
 
 
 def test_copy(cfg_pth):

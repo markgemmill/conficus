@@ -4,7 +4,9 @@ from conficus.coerce import coerce as _coerce
 
 def test_config_format(format_cfg):
     config = _coerce(format_cfg)
-    assert str(config) == '''[config] debug: True
+    assert (
+        str(config)
+        == """[config] debug: True
 [config] password: **********
 [config] numbers.integer.value: 1
 [config] numbers.float.value: 2.0
@@ -28,4 +30,5 @@ def test_config_format(format_cfg):
 that we want to preserve but keep
 readable in our configuration file.
 We can used this for email body
-text, and things like that.'''
+text, and things like that."""
+    )
