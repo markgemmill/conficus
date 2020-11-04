@@ -54,3 +54,11 @@ def test_toml_custom_coercers(toml_pth):
     assert_toml_values(cfg)
     assert cfg["windows-file-path"] == "windows path converted"
     assert cfg["unix-file-path"] == "unix path converted"
+
+
+def test_toml_inheritance(toml_pth):
+    cfg = conficus.load(
+        toml_pth, inheritance=True, decimal=True, pathlib=True, toml=True, coercers=custom_coercers
+    )
+    assert_toml_values(cfg)
+    assert cfg["email.errors.server"] == "smtp.server.com" 
