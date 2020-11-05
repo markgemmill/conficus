@@ -1,6 +1,13 @@
 Release History
 ---------------
 
+v0.5.1 (2020-11-04)
+^^^^^^^^^^^^^^^^^^^
+
+- fix up includes for published package
+- remove non-poetry / legacy files
+
+
 v0.5.0 (2020-10-31)
 ^^^^^^^^^^^^^^^^^^^
 

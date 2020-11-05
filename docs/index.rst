@@ -1,4 +1,4 @@
-Conficus v0.5.0
+Conficus v0.5.1
 ===================
 
 Python INI Configuration
@@ -97,6 +97,6 @@ Topics
    release-history
 
 
-.. |version-badge| image:: https://img.shields.io/badge/version-v0.5.0-green.svg
+.. |version-badge| image:: https://img.shields.io/badge/version-v0.5.1-green.svg
 .. |coverage-badge| image:: https://img.shields.io/badge/coverage-100%25-green.svg
 

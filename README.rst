@@ -1,4 +1,4 @@
-Conficus v0.5.0 
+Conficus v0.5.1 
 ===================
 
 Python INI Configuration
@@ -40,7 +40,7 @@ Configurations can be loaded from a file path string:
 
 .. code:: python
 
-    >>> config = ficus.load('/Users/mgemmill/config.ini')
+    >>> config = ficus.load('/Users/mgemmill/config.ini', toml=True)
     >>>
 
 Or from path stored in an environment variable:
@@ -62,5 +62,5 @@ Or from path stored in an environment variable:
     >>> print config['app.debug']
     True
 
-.. |version-badge| image:: https://img.shields.io/badge/version-v0.5.0-green.svg
+.. |version-badge| image:: https://img.shields.io/badge/version-v0.5.1-green.svg
 .. |coverage-badge| image:: https://img.shields.io/badge/coverage-100%25-green.svg

@@ -1,9 +1,18 @@
 [tool.poetry]
 name = "conficus"
-version = "0.5.0"
+version = "0.5.1"
 description = "python INI configuration library"
-authors = ["Mark Gemmill <gitlab@markgemmill.com>"]
+authors = ["Mark Gemmill <dev@markgemmill.com>"]
 license = "MIT License"
+homepage = "https://gitlab.com/mgemmill-pypi/conficus"
+readme = "README.rst"
+includes = ["HISTORY.md"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"
