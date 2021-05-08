@@ -3,11 +3,10 @@ from os import environ
 from os import path
 from pathlib import Path
 import tomlkit
-from . import inherit
 from . import coerce
+from . import inherit
 from .readonly import ReadOnlyDict
 from .structs import ConfigDict
-
 
 __version__ = "0.6.0"
 
