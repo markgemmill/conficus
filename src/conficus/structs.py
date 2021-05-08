@@ -54,29 +54,17 @@ class ConfigDict(OrderedDict):
             end = super(ConfigDict, end).__getitem__(seg)
         return contains
 
-    def walk_values(self):
-        _values = []
-
-        def _recurse(section, v):
-            for val in super(ConfigDict, section).values():
-                if isinstance(val, ConfigDict):
-                    _recurse(val, v)
-                if isinstance(val, ConfigValue):
-                    v.append(val)
-
-        _recurse(self, _values)
-
-        return _values
-
-    def walk(self):
-        def _recurse(section):
+    def walk(self, full_key=False):
+        def _recurse(section, parent_key):
             for key, value in section.items():
+                if full_key and parent_key:
+                    key = f"{parent_key}.{key}"
                 if isinstance(value, ConfigDict):
-                    yield from _recurse(value)
+                    yield from _recurse(value, key)
                 else:
                     yield section, key, value
 
-        yield from _recurse(self)
+        yield from _recurse(self, None)
 
     def copy(self):
         "od.copy() -> a shallow copy of od"
@@ -84,28 +72,6 @@ class ConfigDict(OrderedDict):
 
     def __str__(self):
         return formatter(self)
-
-
-class ConfigValue:
-    def __init__(self, initial_value):
-        self.raw_value = [initial_value]
-        self.end_value = None
-
-    def add(self, value):
-        self.raw_value.append(value)
-
-    @property
-    def multiline(self):
-        return len(self.raw_value) > 1
-
-    @property
-    def value(self):
-        if self.multiline:
-            return "\n".join(self.raw_value)
-        return str(self.raw_value[0])
-
-    def __deepcopy__(self, memo):
-        return self.end_value
 
 
 class ListNode:
@@ -203,7 +169,7 @@ class DoubleLinkedDict:
 
     def __len__(self):
         count = 0
-        for node in self:  # noqa
+        for _ in self:  # noqa
             count += 1
         return count
 

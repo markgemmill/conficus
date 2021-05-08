@@ -235,6 +235,11 @@ def test_double_linked_dict_replace(dld):
         dld.replace("nonexistantname", 600)
 
 
+def test_double_linked_dict_setitem(dld):
+    dld["mynode"] = 999
+    assert dld["mynode"].content == 999
+
+
 def test_double_linked_dict_iter_names(dld):
     dld.prepend("alpha", -1)
     dld.append("omega", 100)

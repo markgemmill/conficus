@@ -1,5 +1,5 @@
 # pylint: disable=unused-argument
-from .parse import ConfigDict
+from .structs import ConfigDict
 
 
 class ReadOnlyDict(ConfigDict):

@@ -1,6 +1,13 @@
 Release History
 ---------------
 
+v0.6.0 (2021-05-6)
+^^^^^^^^^^^^^^^^^^
+
+- removed non-toml parsing code
+- added section level inheritance notation
+
+
 v0.5.1 (2020-11-04)
 ^^^^^^^^^^^^^^^^^^^
 

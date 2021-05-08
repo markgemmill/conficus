@@ -1,10 +1,5 @@
-def _variable_name(parent, name):
-    if not parent:
-        return name
-    return parent + "." + name
-
-
-def _format_value(name, value):
+def _format_value(key, value):
+    name = key.split(".")[-1]
     if any([pw in name for pw in ("password", "passwd", "pwd")]):
         return "**********"
     return str(value)
@@ -24,21 +19,16 @@ def _format_sequence(sequence):
     return start + "\n" + "\n".join(_long_list) + end
 
 
-def formatter(cdict, output=None, parent=""):
+def formatter(cdict, output=None):
     if not output:
         output = []
-    for key, value in cdict.items():
-        full_name = _variable_name(parent, key)
-        # print('{}: {}'.format(key, value))
-        # print('TYPE: {}'.format(type(value)))
+
+    for _, key, value in cdict.walk(full_key=True):
         if not isinstance(value, (dict, list, tuple)):
             _value = _format_value(key, value)
-            _output = "[config] {}: {}".format(full_name, _value)
+            _output = "[config] {}: {}".format(key, _value)
             output.append(_output)
         elif isinstance(value, (list, tuple)):
-            _output = "[config] {}: {}".format(full_name, _format_sequence(value))
+            _output = "[config] {}: {}".format(key, _format_sequence(value))
             output.append(_output)
-        else:
-            formatter(value, output=output, parent=full_name)
-
     return "\n".join(output)

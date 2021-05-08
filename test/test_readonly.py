@@ -1,6 +1,7 @@
+from copy import copy
 import pytest
-from conficus.parse import ConfigDict
 from conficus.readonly import ReadOnlyDict
+from conficus.structs import ConfigDict
 
 
 def test_readonly_dict():
@@ -39,3 +40,25 @@ def test_readonly_dict():
 
     with pytest.raises(TypeError):
         d.clear()
+
+
+def test_readonly_dict_copy():
+
+    d = ConfigDict()
+    d["one"] = ConfigDict()
+    d["one"]["name"] = "one"
+    d["one"]["two"] = ConfigDict()
+    d["one"]["two"]["name"] = "one two"
+
+    d = ReadOnlyDict(d)
+
+    e = d.copy()
+
+    assert e is not d
+    assert type(e) is not ConfigDict
+    assert type(e) is ReadOnlyDict
+
+    f = copy(e)
+    assert f is not e
+    assert type(f) is not ConfigDict
+    assert type(f) is ReadOnlyDict

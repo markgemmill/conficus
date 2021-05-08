@@ -2,11 +2,14 @@
 from os import environ
 from os import path
 from pathlib import Path
+import tomlkit
+from . import inherit
 from . import coerce
-from . import parse
-from . import toml
-from .inherit import inherit as _inherit
 from .readonly import ReadOnlyDict
+from .structs import ConfigDict
+
+
+__version__ = "0.6.0"
 
 
 def read_config(config_input):
@@ -19,19 +22,14 @@ def read_config(config_input):
         3. a raw config string.
 
     """
-
-    def _readlines(pth):
-        with open(pth, "r") as fh_:
-            return fh_.read()
-
     if isinstance(config_input, Path):
-        return config_input.read_text().split("\n")
+        config_input = config_input.read_text()
 
     if path.exists(config_input):
-        config_input = _readlines(config_input)
+        config_input = Path(config_input).read_text()
 
     elif config_input in environ and path.exists(environ[config_input]):
-        config_input = _readlines(environ[config_input])
+        config_input = Path(environ[config_input]).read_text()
 
     return config_input.split("\n")
 
@@ -50,23 +48,16 @@ def load(config_path, **kwargs):
 
     use_pathlib = kwargs.get("use_pathlib", False) or kwargs.get("pathlib", False)
     use_decimal = kwargs.get("use_decimal", False) or kwargs.get("decimal", False)
-    use_toml = kwargs.get("use_toml", False) or kwargs.get("toml", False)
     coercers = kwargs.get("coercers")
 
-    _parse = parse.parse
-    _coerce = coerce.coerce
+    config = ConfigDict(tomlkit.parse("\n".join(read_config(config_path))))
 
-    if use_toml is True:
-        _parse = toml.parse
-        _coerce = toml.coerce
-
-    config = _parse(read_config(config_path))
-    config = _coerce(
+    config = coerce.apply(
         config, pathlib=use_pathlib, decimal=use_decimal, coercers=coercers
     )
 
     if kwargs.get("inheritance", False) is True:
-        config = _inherit(config)
+        config = inherit.apply(config)
 
     if kwargs.get("readonly", True) is True:
         config = ReadOnlyDict(config)
