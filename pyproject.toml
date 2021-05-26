@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "conficus"
-version = "0.6.0"
+version = "0.6.1"
 description = "python INI configuration library"
 authors = ["Mark Gemmill <dev@markgemmill.com>"]
 license = "MIT License"

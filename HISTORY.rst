@@ -1,6 +1,13 @@
 Release History
 ---------------
 
+
+v0.6.1 (2021-05-25)
+^^^^^^^^^^^^^^^^^^
+- added 'secret' and 'salt' to the list of words the formatter
+  will obfuscate the value if found in the dictionary key
+
+
 v0.6.0 (2021-05-6)
 ^^^^^^^^^^^^^^^^^^
 

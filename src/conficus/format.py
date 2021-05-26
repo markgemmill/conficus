@@ -1,6 +1,6 @@
 def _format_value(key, value):
     name = key.split(".")[-1]
-    if any([pw in name for pw in ("password", "passwd", "pwd")]):
+    if any([pw in name for pw in ("password", "passwd", "pwd", "secret", "salt")]):
         return "**********"
     return str(value)
 

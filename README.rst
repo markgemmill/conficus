@@ -1,4 +1,4 @@
-Conficus v0.6.0 
+Conficus v0.6.1 
 ===================
 
 Python INI Configuration
@@ -142,5 +142,5 @@ The ``decimal`` option will convert any toml string value that matches ``\d+\.\d
     >>> True
 
 
-.. |version-badge| image:: https://img.shields.io/badge/version-v0.6.0-green.svg
+.. |version-badge| image:: https://img.shields.io/badge/version-v0.6.1-green.svg
 .. |coverage-badge| image:: https://img.shields.io/badge/coverage-100%25-green.svg
