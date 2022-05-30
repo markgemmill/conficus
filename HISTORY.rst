@@ -2,6 +2,16 @@ Release History
 ---------------
 
 
+v0.6.3 (2022-05-30)
+^^^^^^^^^^^^^^^^^^^
+- updated min python version from 3.6 to 3.8
+- updated tomlkit dependency
+
+
+v0.6.2 (2022-05-29)
+^^^^^^^^^^^^^^^^^^^
+- removed irrelevant print statements
+
 v0.6.1 (2021-05-25)
 ^^^^^^^^^^^^^^^^^^
 - added 'secret' and 'salt' to the list of words the formatter

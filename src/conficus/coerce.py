@@ -69,12 +69,9 @@ def apply(config, **kwargs):  # pragma pylint: disable=redefined-builtin
 
     # # add any custom coercers
     for name, custom_coercer in handle_custom_coercers(kwargs.get("coercers")):
-        print([name for name in coercers.iter_names()])
         if name in coercers:
-            print(f"replace: {name}")
             coercers.replace(name, custom_coercer)
         else:
-            print(f"prepend: {name}")
             coercers.prepend(name, custom_coercer)
 
     for section, key, value in config.walk():

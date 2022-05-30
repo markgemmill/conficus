@@ -8,7 +8,7 @@ from . import inherit
 from .readonly import ReadOnlyDict
 from .structs import ConfigDict
 
-__version__ = "0.6.1"
+__version__ = "0.6.3"
 
 
 def read_config(config_input):

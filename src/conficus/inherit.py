@@ -53,13 +53,11 @@ def apply(config):  # noqa C901
             current_section.pop(INHERIT_KEY)
         apply_inheritence = apply_inheritence * -1
 
-        print(f"_inherit = {apply_inheritence}")
         # get the last x inheritable sections
         if apply_inheritence == 0:
             _inheritables = []
         else:
             _inheritables = _inheritable_options[apply_inheritence:]
-        print(f"Inheritables: {_inheritables}")
 
         # apply each level of inheritance to the current section
         for options in _inheritables:
