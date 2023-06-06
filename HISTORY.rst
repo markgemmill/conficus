@@ -1,6 +1,10 @@
 Release History
 ---------------
 
+v0.6.4 (2023-06-06)
+^^^^^^^^^^^^^^^^^^^
+- added encoding option to load function. Without an
+  explicit encoding privided to
 
 v0.6.3 (2022-05-30)
 ^^^^^^^^^^^^^^^^^^^
