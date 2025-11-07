@@ -4,6 +4,7 @@ from decimal import Decimal
 from pathlib import Path
 from .structs import ConfigDict, DoubleLinkedDict
 from .walk import walk_config
+from .exceptions import CoercionError
 
 CoerceFunction = t.Callable[[t.Any], t.Any]
 
@@ -60,12 +61,14 @@ def handle_custom_coercers(
         regex_str, converter = _coercer
 
         if "(?P<value>" not in regex_str:
-            raise Exception(
+            raise CoercionError(
                 "Custom matcher regular expressions must contain a named group `<value>`."
             )
 
         if not callable(converter):
-            raise Exception("Custom converter's must be callable.")  # pragma: no cover
+            raise CoercionError(
+                "Custom converters must be callable."
+            )  # pragma: no cover
 
         yield name, (matcher(regex_str), converter)
 

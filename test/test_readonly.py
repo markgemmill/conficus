@@ -43,7 +43,6 @@ def test_readonly_dict():
 
 
 def test_readonly_dict_copy():
-
     d = ConfigDict()
     d["one"] = ConfigDict()
     d["one"]["name"] = "one"

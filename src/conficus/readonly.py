@@ -18,16 +18,22 @@ class ReadOnlyDict(ConfigDict):
         return super().__setitem__(key, item)
 
     def __delitem__(self, key: str):
-        raise TypeError
+        raise TypeError("Cannot update ReadOnlyDict.")
 
     def clear(self):
-        raise TypeError
+        raise TypeError("Cannot update ReadOnlyDict.")
 
     def pop(self, key: object, default: t.Any = None) -> t.Any:
-        raise TypeError
+        raise TypeError("Cannot update ReadOnlyDict.")
 
     def popitem(self, last: bool = True) -> t.Tuple[object, t.Any]:
-        raise TypeError
+        raise TypeError("Cannot update ReadOnlyDict.")
+
+    def update(self, *args, **kwargs) -> None:
+        raise TypeError("Cannot update ReadOnlyDict.")  # pragma: no cover
+
+    def setdefault(self, key: str, default: t.Any = None) -> t.Any:
+        raise TypeError("Cannot update ReadOnlyDict.")  # pragma: no cover
 
     def __copy__(self) -> "ReadOnlyDict":
         """We can only create a new ReadOnlyDict

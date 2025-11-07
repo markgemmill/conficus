@@ -220,7 +220,6 @@ def test_double_linked_dict_insert_after(dld):
 
 
 def test_double_linked_dict_replace(dld):
-
     node = dld["second"]
 
     assert dld["second"].content == 1

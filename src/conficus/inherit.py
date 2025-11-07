@@ -1,11 +1,12 @@
 import typing as t
 from copy import deepcopy
 from .structs import ConfigDict
+from .exceptions import InheritanceError
 
 
 def apply(config: ConfigDict) -> ConfigDict:  # noqa C901
     """
-    ficus.inherit pushes the configuration values of
+    conficus.inherit pushes the configuration values of a
     parent section down to its child sections.
 
     This can be used as a way of simplifying config usage. For example:
@@ -50,7 +51,7 @@ def apply(config: ConfigDict) -> ConfigDict:  # noqa C901
         # determine the level instance of the current section's inheritence
         apply_inheritence = current_section.get(INHERIT_KEY, 99)
         if not isinstance(apply_inheritence, int):
-            raise Exception("'_inherit' option must be an integer.")
+            raise InheritanceError("'_inherit' option must be an integer.")
 
         if INHERIT_KEY in current_section:
             current_section.pop(INHERIT_KEY)

@@ -7,6 +7,19 @@ from . import coerce
 from . import inherit
 from .readonly import ReadOnlyDict
 from .structs import ConfigDict
+from .exceptions import ConfigError  # noqa
+from .exceptions import CoercionError  # noqa
+from .exceptions import InheritanceError  # noqa
+
+__all__ = (
+    "read_config",
+    "load",
+    "ReadOnlyDict",
+    "ConfigDict",
+    "ConfigError",
+    "CoercionError",
+    "InheritanceError",
+)
 
 __version__ = "1.0.0"
 
@@ -21,14 +34,15 @@ def read_config(config_input: Path | str, encoding: str = "utf-8") -> t.List[str
         3. a raw config string.
 
     """
+
     if isinstance(config_input, Path):
-        config_input = config_input.read_text(encoding=encoding)
+        return config_input.read_text(encoding=encoding).split("\n")
 
     if path.exists(config_input):
-        config_input = Path(config_input).read_text(encoding=encoding)
+        return Path(config_input).read_text(encoding=encoding).split("\n")
 
-    elif config_input in environ and path.exists(environ[config_input]):
-        config_input = Path(environ[config_input]).read_text(encoding=encoding)
+    if config_input in environ and path.exists(environ[config_input]):
+        return Path(environ[config_input]).read_text(encoding=encoding).split("\n")
 
     return config_input.split("\n")
 

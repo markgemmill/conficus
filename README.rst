@@ -11,7 +11,7 @@ Python INI Configuration
 providing some extra type coercions (e.g. str -> Path)
 easier access and section inheritance.
 
-``conficus`` python 3.6+.
+``conficus`` python 3.11+.
 
 
 Installation
@@ -41,13 +41,7 @@ Configurations can be loaded directly from a string variable or read via file pa
 
     >>> config = conficus.load('/Users/mgemmill/config.ini', toml=True)
     >>>
-
-``conficus`` will also read a path from an environment variable:
-
-.. code:: python
-
-    >>> config = conficus.load('ENV_VAR_CONFIG_PATH')
-    >>>
+ 
 
 Easier Selection
 ................
@@ -141,6 +135,24 @@ The ``decimal`` option will convert any toml string value that matches ``\d+\.\d
     >>> isinstance(config["number"], Decimal)
     >>> True
 
+**Custom Conversions**
 
-.. |version-badge| image:: https://img.shields.io/badge/version-v0.6.1-green.svg
+A custom coercer consists of 3 valus:
+
+1. a name string
+2. a regular expression string
+3. a conversion function that takes a string value and returns the coerced value
+
+This a contrived example, where we're defining a notation ("upper::") to identify a custom value
+we want to convert. You could easily take this example and do something similar that decrypts an encrypted value.
+
+.. code:: python
+
+   >>> def convert_to_caps(raw_value: str) -> str:
+   ...     return raw_value.upper()
+   >>> config = conficus.load("address = 'upper::121 fleet street'", coercers=[("upper-case", (r"^upper::(?P<value>.*)$", convert_to_caps))])
+   >>> config["address"] 
+   ... "121 FLEET STREET"
+
+.. |version-badge| image:: https://img.shields.io/badge/version-v1.0.0-green.svg
 .. |coverage-badge| image:: https://img.shields.io/badge/coverage-100%25-green.svg

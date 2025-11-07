@@ -27,7 +27,7 @@ def walk_config(cfg: ConfigDict) -> WalkIterator:
             # the items
             for index, item in enumerate(key_value):
                 _parent_key = join_keys(full_key_path, str(index))
-                yield from _recurse(key_value, _parent_key, key, item)
+                yield from _recurse(key_value, _parent_key, str(index), item)
 
         else:
             # otherwise yield the value

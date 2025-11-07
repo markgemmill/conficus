@@ -6,24 +6,9 @@ from .walk import walk_config
 
 def _format_value(key: str, value: t.Any) -> str:
     name = key.split(".")[-1]
-    if any([pw in name for pw in ("password", "passwd", "pwd", "secret", "salt")]):
+    if any(pw in name for pw in ("password", "passwd", "pwd", "secret", "salt")):
         return "**********"
     return str(value)
-
-
-# NB: this doesn't get used anymore...
-# def _format_sequence(sequence: t.Sequence):
-#     start, end = "[]" if isinstance(sequence, list) else "()"
-#     _list = [str(v) for v in sequence]
-#
-#     _short_list = ", ".join(_list)
-#
-#     if len(_short_list) + 2 < 80:
-#         return start + _short_list + end
-#
-#     _long_list = ["    " + str(v) for v in _list]
-#
-#     return start + "\n" + "\n".join(_long_list) + end
 
 
 def pprint(cdict: ConfigDict, output: None | t.List[str] = None) -> str:

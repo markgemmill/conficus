@@ -1,5 +1,6 @@
 import typing as t
 from collections import OrderedDict
+from .exceptions import ConfigError
 
 
 class ConfigDict(OrderedDict):
@@ -144,7 +145,7 @@ class ListNode:
     def __eq__(self, node: object) -> bool:
         if isinstance(node, self.__class__):
             return self.name == node.name and self.content == node.content
-        return False
+        return False  # pragma: no cover
 
 
 class DoubleLinkedDict:
@@ -153,14 +154,10 @@ class DoubleLinkedDict:
 
     """
 
-    current: ListNode | None
     root: ListNode | None
-    _tail: ListNode | None
 
     def __init__(self, *args):
-        self.current = None
         self.root = None
-        self._tail = None
         for name, content in args:
             self.append(name, content)
 
@@ -193,7 +190,7 @@ class DoubleLinkedDict:
 
     def replace(self, node_name: str, content: t.Any):
         if node_name not in self:
-            raise Exception(f"List does not contain '{node_name}'.")
+            raise ConfigError(f"List does not contain '{node_name}'.")
         node = self[node_name]
         if node:
             node.content = content
