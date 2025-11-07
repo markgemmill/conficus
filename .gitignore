@@ -31,3 +31,5 @@ workbench/*.svg
 conficus_1_a.idraw
 Scroll5.png
 .pypirc
+CLAUDE.md
+.python-version

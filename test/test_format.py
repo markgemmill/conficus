@@ -1,4 +1,5 @@
 import conficus
+from conficus.format import pprint
 
 CFG = '''
 debug = true
@@ -46,19 +47,19 @@ text = """This is a much longer text block
 def test_config_format():
     config = conficus.load(CFG)
     assert (
-        str(config)
+        pprint(config)
         == """[config] debug: True
 [config] password: **********
 [config] numbers.integer.value: 1
 [config] numbers.float.value: 2.0
-[config] sequence.empty-list.value: []
-[config] sequence.empty-tuple.value: []
-[config] sequence.lists.short: [1, 2, 3, 4]
-[config] sequence.lists.long: [
-    Abagail had short hair
-    Johnathan wore his far too long
-    Isabelle was terribly frightened of very small horses
-    And Henry ate the canned beans until they were all gone!]
+[config] sequence.lists.short.0: 1
+[config] sequence.lists.short.1: 2
+[config] sequence.lists.short.2: 3
+[config] sequence.lists.short.3: 4
+[config] sequence.lists.long.0: Abagail had short hair
+[config] sequence.lists.long.1: Johnathan wore his far too long
+[config] sequence.lists.long.2: Isabelle was terribly frightened of very small horses
+[config] sequence.lists.long.3: And Henry ate the canned beans until they were all gone!
 [config] datetimes.datetime.value: 2017-05-31 10:00:00
 [config] datetimes.date.value: 2017-05-31
 [config] datetimes.time.value: 10:15:02

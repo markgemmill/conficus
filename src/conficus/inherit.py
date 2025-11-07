@@ -1,8 +1,9 @@
+import typing as t
 from copy import deepcopy
 from .structs import ConfigDict
 
 
-def apply(config):  # noqa C901
+def apply(config: ConfigDict) -> ConfigDict:  # noqa C901
     """
     ficus.inherit pushes the configuration values of
     parent section down to its child sections.
@@ -30,7 +31,9 @@ def apply(config):  # noqa C901
     """
     INHERIT_KEY = "_inherit"
 
-    def _inherit(inheritable_options, current_section):
+    def _inherit(
+        inheritable_options: t.List[t.Any], current_section: ConfigDict
+    ) -> None:
         # first inherit any options
         # that do not exist
 

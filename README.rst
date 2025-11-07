@@ -1,4 +1,4 @@
-Conficus v0.6.1 
+Conficus v1.0.0 
 ===================
 
 Python INI Configuration

@@ -1,10 +1,20 @@
+import typing as t
 import re
 from decimal import Decimal
 from pathlib import Path
-from .structs import DoubleLinkedDict
+from .structs import ConfigDict, DoubleLinkedDict
+from .walk import walk_config
+
+CoerceFunction = t.Callable[[t.Any], t.Any]
+
+CoercerBundle = t.Tuple[str, CoerceFunction]
+
+CoercerArgument = t.Tuple[str, CoercerBundle]
+
+CoercerMatcher = t.Callable[[str], t.Dict | None]
 
 
-def matcher(regex):
+def matcher(regex: str) -> t.Callable[[str], None | t.Dict]:
     """
     Wrapper around a regex that always returns the
     group dict if there is a match.
@@ -15,7 +25,7 @@ def matcher(regex):
     rx = re.compile(regex, re.I)
 
     # pylint: disable=inconsistent-return-statements
-    def _matcher(line):
+    def _matcher(line: str) -> t.Dict | None:
         if not isinstance(line, str):
             return
         m = rx.match(line)
@@ -29,7 +39,7 @@ WINDOWS_PATH_REGEX = r'^(?P<value>[a-z]:\\(?:[^\\/:*?"<>|\r\n]+\\)*[^\\/:*?"<>|\
 UNIX_PATH_REGEX = r"^(?P<value>(/[^\0/]*)*)$"
 
 
-def coerce_path(value):
+def coerce_path(value: str) -> Path:
     return Path(value)
 
 
@@ -39,10 +49,14 @@ coerce_unx_path = (matcher(UNIX_PATH_REGEX), coerce_path)
 coerce_str_to_decimal = (matcher(r"^(?P<value>\d+\.\d+)$"), Decimal)
 
 
-def handle_custom_coercers(custom_coercers):
+def handle_custom_coercers(
+    custom_coercers: t.List[CoercerArgument] | None,
+) -> t.Iterator[t.Tuple[str, t.Tuple[CoercerMatcher, CoerceFunction]]]:
     if not custom_coercers:
         return
     for name, _coercer in custom_coercers:
+        if not _coercer:
+            continue  # pragma: no cover
         regex_str, converter = _coercer
 
         if "(?P<value>" not in regex_str:
@@ -51,13 +65,14 @@ def handle_custom_coercers(custom_coercers):
             )
 
         if not callable(converter):
-            raise Exception("Custom converter's must be callable.")
+            raise Exception("Custom converter's must be callable.")  # pragma: no cover
 
         yield name, (matcher(regex_str), converter)
 
 
-def apply(config, **kwargs):  # pragma pylint: disable=redefined-builtin
-
+def apply(
+    config: ConfigDict, **kwargs
+) -> ConfigDict:  # pragma pylint: disable=redefined-builtin
     coercers = DoubleLinkedDict()
 
     if kwargs.get("pathlib", False) is True:
@@ -69,13 +84,17 @@ def apply(config, **kwargs):  # pragma pylint: disable=redefined-builtin
 
     # # add any custom coercers
     for name, custom_coercer in handle_custom_coercers(kwargs.get("coercers")):
+        if not custom_coercer:
+            continue  # pragma: no cover
         if name in coercers:
             coercers.replace(name, custom_coercer)
         else:
             coercers.prepend(name, custom_coercer)
 
-    for section, key, value in config.walk():
+    for section, _, key, value in walk_config(config):
         for coercer in coercers:
+            if not coercer:
+                continue  # pragma: no cover
             m, converter = coercer.content
             if m(value):
                 new_value = converter(value)

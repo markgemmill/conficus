@@ -1,10 +1,24 @@
 Release History
 ---------------
 
+v1.0.0 (2025-11-06)
+^^^^^^^^^^^^^^^^^^^
+- breaking changes
+- fully type annotated
+- now recurses into toml table structures
+- lists are recursed into each element
+- moved ConfigDict.walk method to walk_config function
+- renamed formatter function to pprint
+- pprint no longer outputs lists and tuples as a complete 
+  but prints each value as its own line. example:
+     [config] app.list.0: list index 0 value
+
+
 v0.6.4 (2023-06-06)
 ^^^^^^^^^^^^^^^^^^^
 - added encoding option to load function. Without an
   explicit encoding privided to
+
 
 v0.6.3 (2022-05-30)
 ^^^^^^^^^^^^^^^^^^^
